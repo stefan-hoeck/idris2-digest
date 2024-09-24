@@ -179,6 +179,13 @@ used for lexing:
   and at the same time treat them as valid Idris source files that
   can be type-checked and used as regular modules in larger Idris
   projects.
+* `Parser.Lexer.Common`: Lexers for single-line comments, identifiers
+  and namespaces.
+* `Parser.Lexer.Source`: A data type and lexer for Idris source file tokens.
+  Most of these are simple and easy to understand: Literals, identifiers
+  and namespaces, pragmas, and so on. The real complexity comes fro
+  tokenizing interpolated strings and the resulting mutual relation
+  between the string tokenizer and the one used for everything else.
 
 ### Parsing
 
@@ -325,6 +332,34 @@ its fields:
   backends support additional support files besides the hard-coded ones.
   In addition, the `data` subdirectories in all resolved package directories
   will be added to this list (see `Idris.Package.addDeps`).
+
+## Packages
+
+Idris packages are defined in `.ipkg` files, which list a package's
+dependencies, the modules it export, additional fields for building
+and installing a package, plus information about the author(s) and
+licensing. The following modules are relevant:
+
+* `Idris.Package.Types`: Defines the `PkgDesc` type, a record type
+  listing all the fields that can be specified in an `.ipkg` file.
+  This module also defines data types `PkgVersion` and `VersionBounds`
+  plus utilities for comparing package version bounds.
+  Finally, it contains a pretty printer for `PkgDesc`, which can be
+  used to generate `.ipkg` files from the Idris type.
+* `Idris.Package.Init`: Utilities for (interactively) setup a new
+  Idris project plus corresponding `.ipkg` file.
+* `Idris.Package.ToJson`: Utilities for exporting `.ipkg` files to
+  the JSON format.
+* `Idris.Package`: Parser for `.ipkg` files plus utilities used during
+  (transitive) dependency resolution. Finally, this module also contains
+  the runner for processing packaging commands such as `--build`,
+  `--install`, or `--mkdorcs`.
+* `Parser.Lexer.Package`: Provides the token type and lexing rules used
+  for tokenizing `.ipkg` files.
+* `Parser.Rule.Package`: Basic rules for parsing `.ipkg` files.
+* `Parser.Package`: Re-exports `Parser.Rule.Package` and `Parser.Lexer.Package`
+  and provides two utilities for parsing `.ipkg` files.
+
 
 ## Syntax
 
@@ -484,14 +519,14 @@ plus a short description of each module's content:
 - [ ] Core.LinearCheck
 - [ ] Core.Metadata
 - [ ] Core.Name
-- [ ] Core.Name.Namespace
+- [x] Core.Name.Namespace: Data types and utilities for working with namespaces and module identifiers
 - [ ] Core.Name.Scoped
 - [ ] Core.Normalise
 - [ ] Core.Normalise.Convert
 - [ ] Core.Normalise.Eval
 - [ ] Core.Normalise.Quote
 - [ ] Core.Options.Log
-- [ ] Core.Ord
+- [x] Core.Ord: `Ord` implementation for `CExp`
 - [ ] Core.Primitives
 - [ ] Core.Reflect
 - [ ] Core.SchemeEval
@@ -539,10 +574,6 @@ plus a short description of each module's content:
 - [ ] Idris.IDEMode.SyntaxHighlight
 - [ ] Idris.IDEMode.TokenLine
 - [ ] Idris.ModTree
-- [ ] Idris.Package
-- [ ] Idris.Package.Init
-- [ ] Idris.Package.ToJson
-- [ ] Idris.Package.Types
 - [ ] Idris.Parser
 - [ ] Idris.Parser.Let
 - [ ] Idris.Pretty
@@ -559,11 +590,6 @@ plus a short description of each module's content:
 - [ ] Idris.Syntax.TTC
 - [ ] Idris.Syntax.Traversals
 - [ ] Idris.Syntax.Views
-- [ ] Parser.Lexer.Common
-- [ ] Parser.Lexer.Package
-- [ ] Parser.Lexer.Source
-- [ ] Parser.Package
-- [ ] Parser.Rule.Package
 - [ ] Parser.Rule.Source
 - [ ] Parser.Source
 - [ ] Parser.Support
