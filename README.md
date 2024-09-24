@@ -59,12 +59,37 @@ These are handled in module `Idris.CommandLine`
 where also auto-completion functionality and scripts are defined as
 well as parsers for command-line options plus help texts.
 
-* `Idris.CommandLine`: Command-line options, their parse, and auto-completion
+* `Idris.CommandLine`: Command-line options, their parser, and help text.
+* `Idris.SetOptions`: Auto-completion script, setting of session options
+  (see also `Core.Options.Session`). It also contains utilities for resolving
+  package directories based on package name and version number.
 
 ### Environment
 
-Environment variables are defined in `Idris.Env`. TODO: Describe the
-environment variables in greater detail.
+Environment variables are defined in `Idris.Env`. A list of them plus
+explanation is printed when running `idris2 --help`. However, some of
+them require further explanation, especially since they are related
+to where Idris is looking for stuff.
+
+* `IDRIS2_PREFIX`: This is the root directory of the Idris installation.
+  It is added, for instance, to the package search path (see the description
+  of `Core.Options.Dirs.prefix_dir`). If not set explicitly, this defaults
+  to `IdrisPaths.yprefix`.
+* `IDRIS2_PACKAGE_PATH`: Colon-separated list of absolute paths where Idris
+  should look for installed packages (see also the description of
+  `Core.Options.Dirs.package_search_paths`).
+* `IDRIS2_PATH`: Colon-separated list of absolute paths where Idris
+  will look for, for instance, for `.so` files as well as installed
+  build artifacts for loading modules (see also the description of
+  `Core.Options.Dirs.extra_fields`).
+* `IDRIS2_DATA`: Colon-separated list of absolute paths where Idris
+  will look for additional support files written in the target language
+  (see also the description of `Core.Options.Dirs.data_dirs`).
+* `IDRIS2_LIBS`: Colon-separated list of absolute paths where Idris
+  will look for additional `.so` for linking. 
+  (see also the description of `Core.Options.Dirs.lib_dirs`).
+
+Modules dealing with environment variables:
 
 * `Idris.Env`: Environment variables used by Idris
 * `IdrisPaths`: Auto-generated via `make src/IdrisPaths.idr`,
@@ -72,6 +97,9 @@ environment variables in greater detail.
   as well as the prefix (installation directory).
 * `Idris.Version`: Wraps the version from `IdrisPaths` in a semantic version
   (see `Libraries.Data.Version`)
+* `Core.Directory`: Provides utilities for finding source and data files based
+  on the environment variables. Utility `findIpkgFile` is used to recursively
+  look for the first `.ipkg` file in the current directory or one of its parents.
 
 ### The `Core` Effect
 
@@ -151,6 +179,13 @@ used for lexing:
   and at the same time treat them as valid Idris source files that
   can be type-checked and used as regular modules in larger Idris
   projects.
+* `Parser.Lexer.Common`: Lexers for single-line comments, identifiers
+  and namespaces.
+* `Parser.Lexer.Source`: A data type and lexer for Idris source file tokens.
+  Most of these are simple and easy to understand: Literals, identifiers
+  and namespaces, pragmas, and so on. The real complexity comes fro
+  tokenizing interpolated strings and the resulting mutual relation
+  between the string tokenizer and the one used for everything else.
 
 ### Parsing
 
@@ -224,6 +259,115 @@ printer currently in use in the JavaScript backends.
 * `Libraries.Text.PrettyPrint.Prettyprinter.Util`: A few more utilities for
   working with pretty printers.
 
+## Context
+
+Many if not most functions in the compiler make use of the application
+`Context` defined in `Core.Context`.
+
+* `Core.Options`: Data types storing compiler options that have been read from
+  command-line arguments and environment variables. The following data types
+  are defined and used:
+  * `Dirs`: Different directories where Idris looks for stuff
+    (see also the *Directories* section below).
+  * `CG`: Known code generators.
+  * `PrimNames`: Names of functions used for conversion of literals.
+    These are specified in the Prelude using the pragmas
+    `%charLit`, `%doubleLit`, `%integerLit`, and `%stringLit`.
+    Those dealing with elaborator reflection are specified in base.
+  * `ElabDirective` hold settings and limits used during elaboration.
+  * `Session` holds session options set via command-line arguments.
+    These are processed in `Idris.SetOptions` and include settings about
+    logging and timing amongst many others.
+  * `PPrint` defines settings to be used when pretty printing stuff,
+    especially related to names.
+  * `PairNames`: TODO (don't know yet what they are used for)
+  * `RewriteNames`: TODO (don't know yet what they are used for)
+  * `Options` is a record type used for grouping the above mentioned
+    options plus some additional ones such as currently active language
+    extensions.
+
+### Directories
+
+It is illuminating to know in which directories Idris will look for information.
+Record type `Core.Options.Dirs` lists most of these. Here's a list of
+its fields:
+
+* `working_dir`: The current working directory. Relative paths are relative
+  to this directory.
+* `source_dir`: Optional relative path where Idris will look for source files.
+  Can be set in `.ipkg` files or via a command-line option. Defaults to the
+  current working directory.
+* `build_dir` : Relative path where build artifacts will be written to.
+  Can be set in `.ipkg` files or via a command-line option and defaults to `build`.
+* `depends_dir` : Relative path for local dependencies. Cannot currently be
+  changed and defaults to `depends`. This is where Idris will first look for
+  installed packages.
+* `output_dir`: Relative path where executable programs will be written to.
+  Can be set in `.ipkg` files or via a command-line option and defaults
+  to `build_dir/exec`.
+* `prefix_dir`: Root directory of the Idris installation. This defaults to
+  `IdrisPaths.yprefix` but can be overwritten by setting the `IDRIS2_PREFIX`
+  environment variable. It is added to the package search paths, but Idris
+  looks also in some of its subdirectories for `.so` and support files.
+* `extra_dirs`: These are the directories listed in the `IDRIS2_PATH` environment
+  variable.
+* `package_search_paths`: A list of paths where Idris will look for installed packages.
+  Idris will look in all of these for matching packages (name plus version number)
+  if it cannot find anything in the `depends_dir`.
+  This includes the `pkgGlobalDirectory` (`prefix_dir/idris2-0.7.0`) plus all
+  directories listed in environment variable `IDRIS2_PACKAGE_PATH`.
+* `package_dirs`: This, together with `extra_dirs` is where Idris will look for
+  installed build artifact. This is populated with the directories listed
+  in the `IDRIS2_PATH` environment variable as well as the package installation
+  directories found during package resolution.
+* `lib_dirs` : These are the directories listed in the `IDRIS2_LIBS` environment
+  variable. In addition, `prefix_dir/idris2-0.7.0/lib` and the current working
+  directory end up in this list.
+  This is where Idris will look for pre-built `.so` files to be used during
+  linking.
+* `data_dirs` : These are the directories listed in the `IDRIS2_DATA` environment
+  variable, but also `prefix_dir/idris2-0.7.0/support` ends up in here.
+  This is where Idris will look for installed support files (predefined source
+  code written in the target programming language). Currently, only the JavaScript
+  backends support additional support files besides the hard-coded ones.
+  In addition, the `data` subdirectories in all resolved package directories
+  will be added to this list (see `Idris.Package.addDeps`).
+
+## Packages
+
+Idris packages are defined in `.ipkg` files, which list a package's
+dependencies, the modules it export, additional fields for building
+and installing a package, plus information about the author(s) and
+licensing. The following modules are relevant:
+
+* `Idris.Package.Types`: Defines the `PkgDesc` type, a record type
+  listing all the fields that can be specified in an `.ipkg` file.
+  This module also defines data types `PkgVersion` and `VersionBounds`
+  plus utilities for comparing package version bounds.
+  Finally, it contains a pretty printer for `PkgDesc`, which can be
+  used to generate `.ipkg` files from the Idris type.
+* `Idris.Package.Init`: Utilities for (interactively) setup a new
+  Idris project plus corresponding `.ipkg` file.
+* `Idris.Package.ToJson`: Utilities for exporting `.ipkg` files to
+  the JSON format.
+* `Idris.Package`: Parser for `.ipkg` files plus utilities used during
+  (transitive) dependency resolution. Finally, this module also contains
+  the runner for processing packaging commands such as `--build`,
+  `--install`, or `--mkdorcs`.
+* `Parser.Lexer.Package`: Provides the token type and lexing rules used
+  for tokenizing `.ipkg` files.
+* `Parser.Rule.Package`: Basic rules for parsing `.ipkg` files.
+* `Parser.Package`: Re-exports `Parser.Rule.Package` and `Parser.Lexer.Package`
+  and provides two utilities for parsing `.ipkg` files.
+
+
+## Syntax
+
+* `Idris.Syntax.Pragmas` defines data type `KwPragma`, language pragmas
+  and compiler instructions not associated with functions or data types.
+  Its `Show` implementation shows the name of each pragma as it is used
+  in source files. This module also defines the language extensions
+  (currently, only `ElabReflection` is implemented).
 
 ## Utility Modules in `Libraries`
 
@@ -367,7 +511,6 @@ plus a short description of each module's content:
 - [ ] Core.Context.Pretty
 - [ ] Core.Context.TTC
 - [ ] Core.Coverage
-- [ ] Core.Directory
 - [ ] Core.Env
 - [ ] Core.FC
 - [ ] Core.GetType
@@ -376,15 +519,14 @@ plus a short description of each module's content:
 - [ ] Core.LinearCheck
 - [ ] Core.Metadata
 - [ ] Core.Name
-- [ ] Core.Name.Namespace
+- [x] Core.Name.Namespace: Data types and utilities for working with namespaces and module identifiers
 - [ ] Core.Name.Scoped
 - [ ] Core.Normalise
 - [ ] Core.Normalise.Convert
 - [ ] Core.Normalise.Eval
 - [ ] Core.Normalise.Quote
-- [ ] Core.Options
 - [ ] Core.Options.Log
-- [ ] Core.Ord
+- [x] Core.Ord: `Ord` implementation for `CExp`
 - [ ] Core.Primitives
 - [ ] Core.Reflect
 - [ ] Core.SchemeEval
@@ -432,10 +574,6 @@ plus a short description of each module's content:
 - [ ] Idris.IDEMode.SyntaxHighlight
 - [ ] Idris.IDEMode.TokenLine
 - [ ] Idris.ModTree
-- [ ] Idris.Package
-- [ ] Idris.Package.Init
-- [ ] Idris.Package.ToJson
-- [ ] Idris.Package.Types
 - [ ] Idris.Parser
 - [ ] Idris.Parser.Let
 - [ ] Idris.Pretty
@@ -447,18 +585,11 @@ plus a short description of each module's content:
 - [ ] Idris.REPL.FuzzySearch
 - [ ] Idris.REPL.Opts
 - [ ] Idris.Resugar
-- [ ] Idris.SetOptions
 - [ ] Idris.Syntax
 - [ ] Idris.Syntax.Builtin
-- [ ] Idris.Syntax.Pragmas
 - [ ] Idris.Syntax.TTC
 - [ ] Idris.Syntax.Traversals
 - [ ] Idris.Syntax.Views
-- [ ] Parser.Lexer.Common
-- [ ] Parser.Lexer.Package
-- [ ] Parser.Lexer.Source
-- [ ] Parser.Package
-- [ ] Parser.Rule.Package
 - [ ] Parser.Rule.Source
 - [ ] Parser.Source
 - [ ] Parser.Support
