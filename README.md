@@ -79,9 +79,9 @@ to where Idris is looking for stuff.
   should look for installed packages (see also the description of
   `Core.Options.Dirs.package_search_paths`).
 * `IDRIS2_PATH`: Colon-separated list of absolute paths where Idris
-  will look for, for instance, for `.so` files as well as installed
-  build artifacts for loading modules (see also the description of
-  `Core.Options.Dirs.extra_fields`).
+  will look for installed build artifacts for loading modules as well as
+  some other utilities such as `.so` files for linking (see also the description of
+  `Core.Options.Dirs.extra_dirs`).
 * `IDRIS2_DATA`: Colon-separated list of absolute paths where Idris
   will look for additional support files written in the target language
   (see also the description of `Core.Options.Dirs.data_dirs`).
