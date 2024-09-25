@@ -149,3 +149,38 @@ its fields:
   backends support additional support files besides the hard-coded ones.
   In addition, the `data` subdirectories in all resolved package directories
   will be added to this list (see `Idris.Package.addDeps`).
+
+## TTC Files
+
+Elaborated terms are stored by Idris as build artifacts in binary format.
+This is, in general, what is stored when installing a package. Advantages
+are that terms and declarations need not be re-elaborated when loading
+them from files, plus generating and reading binary data can be a lot
+faster than human readable text. Here are the key modules involved:
+
+Important note: Whenever the TTC format or the type of information generated
+by the compiler changes, constant `Core.Binary.ttcVersion` has to be updated
+as described in its doc string to make sure we do not try to read outdated
+`.ttc` files with later versions of the compiler.
+
+* `Core.Binary.Prims`: This provides interface `TTC` (type theory code) for
+  converting Idris values from and to binary representation. This involves
+  a mutable buffer to which data is written, that keeps track of its
+  current position and is resized (by doubling its length) if there is
+  too little space.
+
+  A couple of implementations of `TTC` for a couple of core Idris data types
+  is also provided.
+* `Core.TTC`: `TTC` implementations for TT `Term`s, compiled expressions (`CExp`)
+  and definitions (`CDef`), global definitions (`GlobalDef`)
+  plus many utility implementations. 
+* `Core.Binary`: Defines private record `TTCFile` containing all the pieces of
+  information that are written in binary form into a `.ttc` file. Function
+  `readFromTTC` is used to read a module's content from a `.ttc` file add
+  add the declarations found in there to the current context. Likewise,
+  function `writeToTTC` writes stuff from a source file (that's currently
+  in the context) to a `.ttc` file.
+* `TTImp.TTImp.TTC`: `TTC` implementations for TTImp declarations and terms.
+* `Core.Context.TTC`: A tiny module providing a `TTC` implementation for
+  `Core.Context.BuiltinType`.
+* `Idris.Syntax.TTC`: `TTC` implementations for `SyntaxInfo` and related types.
