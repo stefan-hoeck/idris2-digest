@@ -90,8 +90,6 @@ can and what cannot be added to the project between two releases.
 - [ ] Compiler.Separate
 - [ ] Compiler.VMCode
 - [ ] Core.AutoSearch
-- [ ] Core.Binary
-- [ ] Core.Binary.Prims
 - [ ] Core.Case.CaseBuilder
 - [ ] Core.Case.CaseTree
 - [ ] Core.Case.CaseTree.Pretty
@@ -103,7 +101,6 @@ can and what cannot be added to the project between two releases.
 - [ ] Core.Context.Data
 - [ ] Core.Context.Log
 - [ ] Core.Context.Pretty
-- [ ] Core.Context.TTC
 - [ ] Core.Coverage
 - [ ] Core.Env
 - [ ] Core.FC
@@ -138,7 +135,6 @@ can and what cannot be added to the project between two releases.
 - [ ] Core.TT.Traversals
 - [ ] Core.TT.Var
 - [ ] Core.TT.Views
-- [ ] Core.TTC
 - [ ] Core.Termination
 - [ ] Core.Termination.CallGraph
 - [ ] Core.Termination.Positivity
@@ -148,8 +144,6 @@ can and what cannot be added to the project between two releases.
 - [ ] Core.Unify
 - [ ] Core.UnifyState
 - [ ] Core.Value
-- [ ] Idris.Desugar
-- [ ] Idris.Desugar.Mutual
 - [ ] Idris.Doc.Annotations
 - [ ] Idris.Doc.Brackets
 - [ ] Idris.Doc.Display
@@ -168,8 +162,6 @@ can and what cannot be added to the project between two releases.
 - [ ] Idris.IDEMode.SyntaxHighlight
 - [ ] Idris.IDEMode.TokenLine
 - [ ] Idris.ModTree
-- [ ] Idris.Parser
-- [ ] Idris.Parser.Let
 - [ ] Idris.Pretty
 - [ ] Idris.Pretty.Annotations
 - [ ] Idris.Pretty.Render
@@ -178,11 +170,6 @@ can and what cannot be added to the project between two releases.
 - [ ] Idris.REPL.Common
 - [ ] Idris.REPL.FuzzySearch
 - [ ] Idris.REPL.Opts
-- [ ] Idris.Resugar
-- [ ] Idris.Syntax
-- [ ] Idris.Syntax.Builtin
-- [ ] Idris.Syntax.TTC
-- [ ] Idris.Syntax.Traversals
 - [ ] Idris.Syntax.Views
 - [ ] Parser.Rule.Source
 - [ ] Parser.Source
@@ -244,7 +231,6 @@ can and what cannot be added to the project between two releases.
 - [ ] TTImp.Reflect
 - [ ] TTImp.TTImp
 - [ ] TTImp.TTImp.Functor
-- [ ] TTImp.TTImp.TTC
 - [ ] TTImp.TTImp.Traversals
 - [ ] TTImp.Unelab
 - [ ] TTImp.Utils
