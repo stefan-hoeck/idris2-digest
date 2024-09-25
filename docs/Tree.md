@@ -66,3 +66,80 @@ I *think* I understood the ones below, but there might be others:
 * *renaming*: The variables in a term can be renamed if two scopes have
   the same number of entries. This is typically a no-op, since internally,
   variables are represented as de Bruijn indices. Interface: `Scoped`.
+
+### Variables
+
+As explained above, variables are represented as de Bruijn indices into
+the current scope.
+
+* `Core.TT.Var`: Defines indexed record type `Var vars`, a variable in scope
+  `vars`. This wraps an erased proof of type `IsVar` plus a natural number
+  corresponding to the variable's de Bruijn index. The module also
+  provides implementations for the transformations described above
+  (interface `Scoped`).
+* `Core.TT.Subst`: I think this is about
+  [substitution](https://en.wikipedia.org/wiki/Lambda_calculus), but I haven't
+  figured out the details yet. It's a smallish module, so I should be able to
+  eventually understand this. TODO.
+* `Core.TT.Term.Subst`: Like `Core.TT.Subst` but implements substitution
+  for `Term`s.
+
+## Primitives
+
+Primitive types and functions are built into the compiler. They can be
+used in all Idris programs but cannot be defined in Idris itself.
+Currently, Idris comes with the following primitive types:
+
+* `Int`
+* `Int8`
+* `Int16`
+* `Int32`
+* `Int64`
+* `Integer`
+* `Bits8`
+* `Bits16`
+* `Bits32`
+* `Bits64`
+* `String`
+* `Char`
+* `Double`
+* `%World`
+
+We can only operate on primitive values via the built-in primitive functions or
+via foreign function calls. Idris can normalize closed terms involving primitives
+during unification, but it knows nothing about their internal structures. Therefore,
+it is for instance impossible to proof the following without resorting to
+`believe_me`:
+
+```haskell
+claim : (s : String) -> length s === length (prim__strReverse s)
+```
+
+Modules:
+
+* `Core.TT.Primitive`: Defines data types for primitive types and their values
+  as well as the primitive operations (`PrimFn`) operating on the primitives.
+  In addition, integer types are categorized by their signdness (signed or unsigned)
+  and precision (number of bits) via data types `Precision` and `IntKind`.
+* `Core.Primitives`: While `Core.TT.Primitive` defines data types for describing
+  primitive types, values, and their operations, `Core.Pritimtives` explicitly
+  states, which primitive operation can be used with what primitive types.
+  Function `allPrimitives` lists all the combinations of primitive operations
+  with primitive types Idris can deal with. For instance, primitive operation
+  `GTE` can be used to compare primitive values of the same type. It is
+  available for all primitives except `%World`. On the other hand, primitive
+  operation `BAnd` allows us to bitwise AND-ing two numbers. It is only available
+  for the integral primitives.
+
+  Exported function `getOp` is used to normalize primitive operations applied
+  to constants during unification and constant folding (an optimization
+  run before code generation).
+
+  Finally, function `opName` defines the name of every specific primitive
+  operation. For instance, `prim__add_Bits8` is the name of the function used
+  to add two numbers of type `Bits8`. It is available to all Idris programs
+  and is used in the implementation of `Num Bits8`. You can checkout its type
+  and try it out in a REPL session or as part of some Idris source code.
+* `Core.InitPrimitives`: This module only exports function `addPrimitives`, which
+  adds all primitive operations returned by `Core.Primitives.allPrimitives` to
+  the compiler's context.
