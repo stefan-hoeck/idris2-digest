@@ -46,6 +46,7 @@ can and what cannot be added to the project between two releases.
 * [Core Functionality](docs/Core.md)
 * [Packages](docs/Packages.md)
 * [Syntax](docs/Syntax.md)
+* [Syntax Trees and Intermediary Representations](docs/Tree.md)
 * [Code Generation and Backends](docs/Codegen.md)
 * [Dealing with Text: Lexing, Parsing, and Pretty Printing](docs/Text.md)
 * [Utility Modules in `Libraries`](docs/Libraries.md)
