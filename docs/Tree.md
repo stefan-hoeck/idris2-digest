@@ -83,6 +83,11 @@ the current scope.
   eventually understand this. TODO.
 * `Core.TT.Term.Subst`: Like `Core.TT.Subst` but implements substitution
   for `Term`s.
+* `Core.Env`: Provides data type `Env tm vars` for listing the types and
+  values of local variables in a term. An environment of type `Env Term vars`
+  allows us to convert a `Term vars` into a closed term (`Term []`).
+  Several more utilities for working with and adjusting the environments
+  of terms are provided.
 
 ## Primitives
 
@@ -118,7 +123,7 @@ claim : (s : String) -> length s === length (prim__strReverse s)
 Modules:
 
 * `Core.TT.Primitive`: Defines data types for primitive types and their values
-  as well as the primitive operations (`PrimFn`) operating on the primitives.
+  (`Constant`) as well as the primitive operations (`PrimFn`) operating on the primitives.
   In addition, integer types are categorized by their signdness (signed or unsigned)
   and precision (number of bits) via data types `Precision` and `IntKind`.
 * `Core.Primitives`: While `Core.TT.Primitive` defines data types for describing
@@ -143,3 +148,108 @@ Modules:
 * `Core.InitPrimitives`: This module only exports function `addPrimitives`, which
   adds all primitive operations returned by `Core.Primitives.allPrimitives` to
   the compiler's context.
+
+## Binders
+
+A *binder* is a syntactic construct that adds new variables to the
+current context. Examples include `let` expressions and lambdas,
+but also new variables introduced from pattern matches and function
+signatures.
+
+* `Core.TT.Binder`: Defines data types `PiInfo` and `Binder` plus some
+  utilities and interfaces.
+
+### Quantities
+
+In Idris, every bound variable is annotated with a quantity (data type
+`RigCount`, which is an alias for `Algebra.ZeroOneOmega.ZeroOneOmega`.
+Relevant modules:
+
+* `Algebra`: `RigCount` alias and reexport of submodules
+* `Algebra.Preorder`: An interface for preorders
+* `Algebra.Semiring`: An interface for semirings
+* `Algebra.SizeChange`: The `SizeChange` semiring
+* `Algebra.ZeroOneOmega`: The `ZeroOneOmega` (or `RigCount`) semiring
+
+### Data type `PiInfo`
+
+This describes the *implicitness* of a bound variable: implicit, explicit,
+auto-implicit, or implicit with default. These correspond to the different
+ways variables can be introduced in Idris code. Explicit variables are
+manually (explicitly) passed to function, while implicit variables are usually
+solved by unification or - in the case of auto-implicit variables - proof search.
+Default implicit variables are assigned the default value unless given
+explicitly.
+
+`PiInfo` is parameterized, because the default-implicit data constructor has
+a field for the default value.
+
+### Data type `Binder`
+
+This provides data constructors for the different kinds of binders Idris
+knows about. They are listed and explained below. Every binder is annotated
+with a file context (`FC`; see the [section about parsers](Text.md)), the
+quantity (`RigCount`) and implicitness (`PiInfo`).
+
+## Type Theory: `TT`
+
+Below is a list of the remaining submodules of `Core.TT` and their content:
+
+* `Core.TT.Traversals`: Contains functionality to extract all names and
+  constants from a `Term` as well as (effectful) traversals and mappings of
+  `Term`s.
+* `Core.TT.Views`: Provides utility `underPis`. TODO: I think I understand the
+  type of this but don't know what it's being used for.
+* `Core.TT.Term`: Defines a data tree for elaborated terms (`Term vars`, where
+  `vars` is the scope of the term) plus several utilities:
+  * `NameType`: Describes where a `Name` (in a `Ref` constructor) comes from.
+    `Bound` names come from binders and can be resolved to `Local` variables
+    in presence of a suitable scope (`resolveNames`).
+  * `LazyReason`: Reason, why the evaluation of a term should be delayed.
+  * `WhyErased`: Describes why a term should be erased.
+  * `Term`: An elaborated term indexed by its scope. A `ClosedTerm` is a
+    term with an empty scope, and therefore, `ClosedTerm` is an alias for
+    `Term []`. Here is a list of the data constructors and their meaning:
+    * `Local`: Bound variable as a De Bruijn index into the current scope
+    * `Ref`  : Other variable (free, function name, or data or type constructor)
+    * `Meta` : TODO
+    * `Bind` : Declares (binds) a new variable given as a `Name` and `Binder`.
+      Contains an inner term: The scope of the freshly bound variable.
+    * `App`  : Function application.
+    * `As`   : Not sure about this one. Is this `x@(Foo y z)`? TODO
+    * `TDelayed` : Delayed evaluation of a term.
+    * `TDelay` : Again delayed evaluation, this time with an attached type (?).
+      Not sure, when each of the two delayed forms is used. TODO
+    * `TForce` : Forces evaluation of a delayed term.
+    * `PrimVal` : Primitive values (constants) and types.
+    * `Erased` : An erased term wrapped in the reason why it is erased.
+    * `TType`: `Type` with potential support (?) for universe levels. TODO
+* `Core.TT`: More data types and utilities:
+  * `KindedName`: Adds additional information to a `Name`.
+  * `CList`: Don's know. Seems to be dead code.
+  * `Visibility`: Enum type corresponding to `private`, `export`, and `public export`.
+  * `Fixity`: Enum type corresponding to different types
+     of fixity declarations (`infixl`, `infir`, `infix`, and `prefix`).
+  * `BindingModifier`: This seems to be related to issue #3113, which has been
+    implemented in #3120.
+  * `FixityInfo`: This seems to be related to issue #3113, which has been
+    implemented in #3120.
+  * `FixityDeclaration`: This seems to be related to issue #3113, which has been
+    implemented in #3120.
+  * `OperatorLHSInfo`: This seems to be related to issue #3113, which has been
+    implemented in #3120.
+  * `TotalReq`: Enum type corresponding to `%total`, `%covering`, and `%partial`.
+  * `PartialReason`: Data type encapsulating the different reasons why Idris
+    might consider a function as being non-total.
+  * `Terminating`: Data type describing if a function is total (terminating) or not.
+    I assume (haven't checked yet, TODO) that this is the outcome of totality checking.
+  * `Covering`: Data type describing if a function is covering or not.
+    I assume (haven't checked yet, TODO) that this is the outcome of coverage checking.
+  * `Totality`: Record pairing `Terminating` and `Covering`.
+  * `Bounds`: TODO
+  * `addVars`: TODO
+  * `resolveRef`: TODO
+  * `refsToLocal`: TODO
+  * `refToLocal`: TODO
+  * `substName`: TODO
+  * `addRefs`: TODO

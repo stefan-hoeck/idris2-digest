@@ -53,11 +53,6 @@ can and what cannot be added to the project between two releases.
 
 ## TODO Module List
 
-- [x] Algebra: `RigCount` alias and reexport of submodules
-- [x] Algebra.Preorder: An interface for preorders
-- [x] Algebra.Semiring: An interface for semirings
-- [x] Algebra.SizeChange: The `SizeChange` semiring
-- [x] Algebra.ZeroOneOmega: The `ZeroOneOmega` (or `RigCount`) semiring
 - [ ] Compiler.ANF
 - [ ] Compiler.CaseOpts
 - [ ] Compiler.Common
@@ -104,7 +99,6 @@ can and what cannot be added to the project between two releases.
 - [ ] Core.Context.Pretty
 - [ ] Core.Coverage
 - [ ] Core.Env
-- [ ] Core.FC
 - [ ] Core.GetType
 - [ ] Core.Hash
 - [ ] Core.LinearCheck
@@ -122,11 +116,6 @@ can and what cannot be added to the project between two releases.
 - [ ] Core.SchemeEval.Evaluate
 - [ ] Core.SchemeEval.Quote
 - [ ] Core.SchemeEval.ToScheme
-- [ ] Core.TT
-- [ ] Core.TT.Binder
-- [ ] Core.TT.Term
-- [ ] Core.TT.Traversals
-- [ ] Core.TT.Views
 - [ ] Core.Termination
 - [ ] Core.Termination.CallGraph
 - [ ] Core.Termination.Positivity
