@@ -66,6 +66,17 @@ the `Core` effect type.
 * `Core.Core`: The `Core` effect type and `Error` (Idris erros)
 * `Idris.Error`: Pretty printing of errors and warnings
 
+### Mutable State
+
+Many functions in the compiler sources work with mutable state to get
+good performance. Such functions typically take one or more
+auto-implicit arguments of type `Ref tag v`, where `tag` is
+a type-level tag to specify the reference to use. We can then
+use functions `newRef`, `get`, `put`, and `update` together
+with a reference's tag to modify the mutable reference in question.
+Type `Ref` is defined in `Core.Context`, the utilities described above
+in `Core.Core`.
+
 ## Logging and Timings
 
 Idris comes with extensive logging capabilities that can be activated both
@@ -116,10 +127,6 @@ Modules:
   `logTerm`. Some additional utilities (some of them unsafe) are also
   provided. In addition, this module also provides functions for computing
   and logging the time taken to run an I/O action.
-
-## Mutable State
-
-TODO
 
 ## Context
 
