@@ -90,8 +90,6 @@ can and what cannot be added to the project between two releases.
 - [ ] Core.Case.CaseTree
 - [ ] Core.Case.CaseTree.Pretty
 - [ ] Core.Case.Util
-- [ ] Core.Context
-- [ ] Core.Context.Context
 - [ ] Core.Context.Data
 - [ ] Core.Context.Pretty
 - [ ] Core.Coverage
