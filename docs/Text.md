@@ -104,6 +104,13 @@ increase in complexity in even the most basic parsers.
   `Path`s from strings. In addition, this contains utility functions
   for dealing with paths in `String` form (making use of `Path`
   and its parser internally).
+* `Core.FC`: Provides data type `FC` for describing *file contexts*.
+  Every piece of information in a syntax or program tree is usually annotated
+  with the corresponding file context, because this will be used for
+  generating error messages that point to the right location in the code
+  as well as when defining semantic tokens (for semantic highlighting).
+  Module `Core.FC` provides quite a few utilities for creating, inspecting,
+  and manipulating (for instance, merging) file contexts. 
 
 ## Pretty Printing
 
