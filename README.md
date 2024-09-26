@@ -98,7 +98,6 @@ can and what cannot be added to the project between two releases.
 - [ ] Core.Context.Log
 - [ ] Core.Context.Pretty
 - [ ] Core.Coverage
-- [ ] Core.Env
 - [ ] Core.GetType
 - [ ] Core.Hash
 - [ ] Core.LinearCheck
