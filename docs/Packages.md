@@ -128,4 +128,22 @@ in [Core](Core.md])).
 
 ## Module Trees
 
-* `Idris.ModTree`: TODO
+* `Idris.ModTree`: This module provides the `ModTree` data type for
+  describing modules and their dependencies. Function `mkModTree` is
+  used to recursively assemble a `ModTree` from a starting module plus
+  list of already processed modules (for cycle detection). It uses
+  a mutable cache of already processed module and tries to load
+  a module and its imports from a source file if it is not yet
+  in the cache.
+
+  Function `mkBuildMods` generates a sequence describing the order
+  in which the modules in a `ModTree` should be built.
+  Exported function `getBuildMods` unifies the functionality of
+  `mkModTree` and `mkBuildMods`.
+
+  Exported function `needsBuilding` checks, if for a given module
+  there is already an up to date (by hash or by modification time)
+  `.ttc` file and if all dependencies are up to date as well.
+
+TODO: Building modules clears the context. The whole context? If yes,
+doesn't this slow stuff down? I should check this out.
