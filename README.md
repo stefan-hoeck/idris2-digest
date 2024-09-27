@@ -54,9 +54,6 @@ can and what cannot be added to the project between two releases.
 
 ## TODO Module List
 
-- [ ] Compiler.CaseOpts
-- [ ] Compiler.Interpreter.VMCode
-- [ ] Compiler.Separate
 - [ ] Core.AutoSearch
 - [ ] Core.Case.CaseBuilder
 - [ ] Core.Case.CaseTree
