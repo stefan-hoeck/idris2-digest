@@ -63,16 +63,76 @@ The content of `Core.Core` consists mostly of utilities for working with and
 printing `Error`s plus the aforementioned combinators for working with
 the `Core` effect type.
 
-* `Core.Core`: The `Core` effect type and `Error` (Idris erros)
+* `Core.Core`: The `Core` effect type and `Error` (Idris errors)
 * `Idris.Error`: Pretty printing of errors and warnings
 
-## Logging
+### Mutable State
 
-TODO
+Many functions in the compiler sources work with mutable state to get
+good performance. Such functions typically take one or more
+auto-implicit arguments of type `Ref tag v`, where `tag` is
+a type-level tag to specify the reference to use. We can then
+use functions `newRef`, `get`, `put`, and `update` together
+with a reference's tag to modify the mutable reference in question.
+Type `Ref` is defined in `Core.Context`, the utilities described above
+in `Core.Core`.
 
-## Mutable State
+Of special importance is also function `wrapRef`: It safes the current
+value of a mutable reference, runs an action in `Core`, and writes the
+stored state back, even in face of an error. As it turns out, it is not
+always clear, when some parts of the global state are reset, and this
+function is one of the main reasons.
 
-TODO
+## Logging and Timings
+
+Idris comes with extensive logging capabilities that can be activated both
+in source files as well as via command-line arguments. Logging is
+categorized into different topics (possibly with sub-topics) and annotated
+with a verbosity (log level; a natural number).
+
+Here are the different ways to set the log level to be used.
+
+* in Idris sources:
+  ```idris
+  %logging 10
+  %logging "my.special.topic" 20
+
+  %logging 0
+  %logging "my.special.topic" 0
+  ```
+* at the command-line:
+  ```sh
+  idris2 --log-level "my.special.topic:10"
+  idris2 --log-level "10"
+  ```
+* at the REPL:
+  ```sh
+  :log "my.special.topic" 10
+  ```
+
+Logging of timings can currently only be activated at the command-line:
+
+```sh
+idris2 --timing
+idris2 --timing 20
+```
+
+Modules:
+
+* `Core.Options.Log`: Constant `knownTopics` lists all topics currently known
+  to the compiler. A `LogLevel` is a logging topic paired with a verbosity.
+  It is a compile-time error to use a topic not listed here
+  in a call to `mkLogLevel`, the smart constructor used for `LogLevel`.
+  `LogLevels` is a string trie from topic to verbosity, and is used to
+  store the log levels requested at the command line and in source code.
+  Utility `keepLog` is used to check if we should keep a log message
+  based on its topic and verbosity.
+* `Core.Context.Log`: While `Core.Options.Log` provides the data types and
+  the internal log used to keep or discard log messages, `Core.Context.Log`
+  provides the actual I/O actions used for logging: Functions `log` and
+  `logTerm`. Some additional utilities (some of them unsafe) are also
+  provided. In addition, this module also provides functions for computing
+  and logging the time taken to run an I/O action.
 
 ## Context
 
@@ -149,6 +209,12 @@ its fields:
   backends support additional support files besides the hard-coded ones.
   In addition, the `data` subdirectories in all resolved package directories
   will be added to this list (see `Idris.Package.addDeps`).
+
+### Context
+
+* `Core.Context.Context`: Provides types for top-level definitions,
+  flags for annotating those, and a `Context` type for all known global
+  definitions. TODO: More to be said about this.
 
 ## TTC Files
 

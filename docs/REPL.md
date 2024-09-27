@@ -1,0 +1,34 @@
+# The Idris REPL
+
+* `Idris.REPL`: The REPL driver. Contains the relevant calls into
+  code generation plus lots of functionality for managing the REPL
+  state.
+* `Idris.REPL.Common`: Additional functionality to be used in a REPL
+  session, such as resetting the context. TODO
+* `Idris.REPL.FuzzySearch`: Implements fuzzy expression/type search that
+  is available at the REPL via the `:fs` command.
+* `Idris.REPL.Opts`: Provides record type `REPLOpts` containing all
+  the settings relevant when running the REPL. In addition, this comes
+  with the usual setters and getters for manipulating these options
+  in presence of an appropriate mutable reference.
+
+Function `loadMainFile`: Reads the main file and builds it
+together with its dependencies (via `Idris.ModTree.buildDeps`, TODO)
+in a clean context.
+
+Function `prepareExp`: Prepares an `Idris.Syntax.PTerm` for
+code generation. It
+desugars the term to `TTImp.TTImp.RawImp`, generates a pair of
+local declarations (type plus definition) for the `it` variable,
+which is assigned the expression and elaborated via `elabTerm`.
+(I don't understand everything of this, yet. TODO). This returns
+a pair (a `Term` and its type) and runs a linearity check on the
+term. It then runs `Compiler.Inline.compileAndInlineAll`,
+which takes no explicit argument, so I guess it's reading stuff from the
+context, and finally returns the `ClosedTerm` it got
+from linearity checking. Honestly, this is quite a mess.
+
+Function `compileExp`: Compiles a `Idris.Syntax.PTerm` in the current
+context (from loading the main file at the REPL or the main module
+of an `.ipkg` file). This invokes `prepareExp`, followed by running
+`Compiler.Common.compileExpr` on the selected code generator.

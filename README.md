@@ -45,6 +45,7 @@ can and what cannot be added to the project between two releases.
 * [Main: Point of Entry](docs/Main.md)
 * [Core Functionality](docs/Core.md)
 * [Packages](docs/Packages.md)
+* [The Idris REPL](docs/REPL.md)
 * [Syntax](docs/Syntax.md)
 * [Syntax Trees and Intermediary Representations](docs/Tree.md)
 * [Code Generation and Backends](docs/Codegen.md)
@@ -90,15 +91,9 @@ can and what cannot be added to the project between two releases.
 - [ ] Core.Case.CaseTree
 - [ ] Core.Case.CaseTree.Pretty
 - [ ] Core.Case.Util
-- [ ] Core.CompileExpr
-- [ ] Core.CompileExpr.Pretty
-- [ ] Core.Context
-- [ ] Core.Context.Context
 - [ ] Core.Context.Data
-- [ ] Core.Context.Log
 - [ ] Core.Context.Pretty
 - [ ] Core.Coverage
-- [ ] Core.Env
 - [ ] Core.GetType
 - [ ] Core.Hash
 - [ ] Core.LinearCheck
@@ -107,8 +102,6 @@ can and what cannot be added to the project between two releases.
 - [ ] Core.Normalise.Convert
 - [ ] Core.Normalise.Eval
 - [ ] Core.Normalise.Quote
-- [ ] Core.Options.Log
-- [x] Core.Ord: `Ord` implementation for `CExp`
 - [ ] Core.Reflect
 - [ ] Core.SchemeEval
 - [ ] Core.SchemeEval.Builtins
@@ -142,15 +135,10 @@ can and what cannot be added to the project between two releases.
 - [ ] Idris.IDEMode.REPL
 - [ ] Idris.IDEMode.SyntaxHighlight
 - [ ] Idris.IDEMode.TokenLine
-- [ ] Idris.ModTree
 - [ ] Idris.Pretty
 - [ ] Idris.Pretty.Annotations
 - [ ] Idris.Pretty.Render
 - [ ] Idris.ProcessIdr
-- [ ] Idris.REPL
-- [ ] Idris.REPL.Common
-- [ ] Idris.REPL.FuzzySearch
-- [ ] Idris.REPL.Opts
 - [ ] Idris.Syntax.Views
 - [ ] Parser.Rule.Source
 - [ ] Parser.Source
