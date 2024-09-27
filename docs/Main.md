@@ -48,8 +48,8 @@ environment. Here's a simplified list of steps taken:
     info about additional code generators (if any)
   * Find and process `.ipkg` file if required (see [Packages](Packages.md))
   * Depending on whether a source file was specified or not, the Prelude or
-    the source file is loaded (see [REPL](REPL.md) (TODO)).
+    the source file is loaded (see [REPL](REPL.md)).
   * Process command-line options again to see whether a proper REPL session should
     be started or we only wanted to check one source file.
   * If we should continue, check if we should do so in IDE mode or as a REPL and
-    do that.
+    do that by running either `Idris.REPL.repl` or `Idris.IDEMode.Repl`.

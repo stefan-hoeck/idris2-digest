@@ -63,7 +63,7 @@ The content of `Core.Core` consists mostly of utilities for working with and
 printing `Error`s plus the aforementioned combinators for working with
 the `Core` effect type.
 
-* `Core.Core`: The `Core` effect type and `Error` (Idris erros)
+* `Core.Core`: The `Core` effect type and `Error` (Idris errors)
 * `Idris.Error`: Pretty printing of errors and warnings
 
 ### Mutable State
@@ -76,6 +76,12 @@ use functions `newRef`, `get`, `put`, and `update` together
 with a reference's tag to modify the mutable reference in question.
 Type `Ref` is defined in `Core.Context`, the utilities described above
 in `Core.Core`.
+
+Of special importance is also function `wrapRef`: It safes the current
+value of a mutable reference, runs an action in `Core`, and writes the
+stored state back, even in face of an error. As it turns out, it is not
+always clear, when some parts of the global state are reset, and this
+function is one of the main reasons.
 
 ## Logging and Timings
 
