@@ -148,3 +148,11 @@ printer currently in use in the JavaScript backends.
   types of quotes and parentheses.
 * `Libraries.Text.PrettyPrint.Prettyprinter.Util`: A few more utilities for
   working with pretty printers.
+* `Idris.Pretty.Annotations`: A data type (`IdrisSyntax`) for semantic
+  tokens used as annotations in pretty printing.
+* `Idris.Pretty.Render`: Utilities for pretty rendering at the REPL
+  based on REPL options (with and without ANSI colors, for instance).
+* `Idris.Pretty`: Additional types and utilities for pretty printing and
+  annotating Idris tokens plus a corresponding ANSI coloring scheme. In
+  addition, this provides a pretty printer for (unelaborated) `IPTerm`s
+  and `Import` statements.
