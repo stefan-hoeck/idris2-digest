@@ -32,3 +32,41 @@ Function `compileExp`: Compiles a `Idris.Syntax.PTerm` in the current
 context (from loading the main file at the REPL or the main module
 of an `.ipkg` file). This invokes `prepareExp`, followed by running
 `Compiler.Common.compileExpr` on the selected code generator.
+
+## IDE Mode
+
+In IDE mode, Idris is run as a server that can take requests from and
+send responses to - for instance - an editor editing `.idr` files.
+It provides interactive editing features about which a regular editor
+or IDE can know nothing, such as case splitting or semantic highlighting.
+
+Modules
+
+* `Protocol.Hex`: Converting integers from and to hexadecimal format.
+* `Protocol.IDE`: TODO
+* `Protocol.IDE.Command`: A data type for known IDE commands plus
+  their conversions from and to S-expressions.
+* `Protocol.IDE.Decoration`: Decorations used (I assume) in semantic
+  highlighting plus their conversions from and to S-expressions.
+* `Protocol.IDE.FileContext`: The file context used (file name plus bounds).
+* `Protocol.IDE.Formatting`: Record `Properties` at most one `Decoration`
+  plus one `Formatting` (currently: bold, italic, or underline).
+* `Protocol.IDE.Highlight`: TODO
+* `Protocol.IDE.Holes`: TODO
+* `Protocol.IDE.Result`: TODO
+* `Protocol.SExp`: A data type for S-expressions plus marshalling interfaces
+  with implementations for the usual Idris types.
+* `Protocol.SExp.Parser`: Lexer and parser for S-expressions.
+* `Idris.IDEMode.CaseSplit`: Implements case splitting: The ability expand
+  a variable in a pattern match into a list of applied data constructors.
+* `Idris.IDEMode.Commands`: Some small utilities for reading and sending
+  commands.
+* `Idris.IDEMode.Holes`: TODO
+* `Idris.IDEMode.MakeClause`: Utilities for generating `case` and `with` clauses.
+* `Idris.IDEMode.Parser`: A parser for S-expressions. Makes use of stuff from
+  `Protocol.SExp` and `Protocol.SExp.Parser
+* `Idris.IDEMode.Pretty`: TODO
+* `Idris.IDEMode.REPL`: Provides `replIDE` for running Idris as a server
+  taking requests and sending responses via a socket.
+* `Idris.IDEMode.SyntaxHighlight`: Provides semantic highlighting via IDE mode.
+* `Idris.IDEMode.TokenLine`: A simple tokenizer for source lines.
