@@ -147,3 +147,24 @@ in [Core](Core.md])).
 
 TODO: Building modules clears the context. The whole context? If yes,
 doesn't this slow stuff down? I should check this out.
+
+## Creating Documentation
+
+* `Idris.Doc.Annotations`: `IdrisDocAnn`, a data type used as annotation during
+  pretty printing. Includes a conversion to ANSI styles and another one to
+  `Protocol.IDE.Decoration.Decoration`.
+* `Idris.Doc.Brackets`: Documentation for idiom brackets and declaration quotes.
+* `Idris.Doc.Display`: Utilities for displaying types and terms found in the
+  current context.
+* `Idris.Doc.HTML`: Utilities for generating HTML documents from module and
+  declaration doc strings.
+* `Idris.Doc.Keywords`: Doc strings for keywords and other language constructs.
+  These are displayed in the REPL, for instance when typing `:doc case`.
+* `Idris.Doc.String`: Utilities for printing documentation of names in
+  the current namespace. This contains utilities for pretting printing
+  types, looking up known interface implementations of a type, and printing
+  documentation and implementations for built-in primitives.
+  For user-defined type, `getDocsForName` prints information about a declaration's
+  or constructors type, fixity, totality, and so on.
+  This also prints documentation for certain syntactic forms such as literals
+  (string, integer, but also list and snoclist, pairs and quotes).
