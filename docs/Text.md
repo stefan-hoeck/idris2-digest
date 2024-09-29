@@ -111,6 +111,19 @@ increase in complexity in even the most basic parsers.
   as well as when defining semantic tokens (for semantic highlighting).
   Module `Core.FC` provides quite a few utilities for creating, inspecting,
   and manipulating (for instance, merging) file contexts. 
+* `Parser.Rule.Source`: Additional utilities for parsing Idris source code
+  with support for semantic decorations.
+* `Parser.Support.Escaping`: Unescaping string literals.
+* `Parser.Support`: Some utilities for working with errors and unescaping
+  `Char` literals.
+* `Parser.Source`: Utilities for parsing source files over a
+  `Parser.Rule.Source.ParsingState`.
+* `Parser.Unlit`: Extracting and embedding Idris code in literate text
+  (from literate source files).
+* `Idris.Parser`: Parser of the high-level source language as well as
+  REPL commands, their parsers, and help text.
+* `Idris.Parser.Let`: Utility parser for `let` expressions and
+  definitions (also, `let` in `do` notation).
 
 ## Pretty Printing
 
