@@ -32,6 +32,12 @@ complicating the underlying core language and type theory. As a first step,
 typically right after parsing, the high-level syntax tree is therefore
 desugared into the core language (here: `TTImp`).
 
+* `Idris.Elab.Implementation`: Desugaring interface implementations. This
+  is used in `Idris.Desugar`. It's quite complex, and I haven't looked at
+  it in detail yet.
+* `Idris.Elab.Interface`: Desugaring interface definitions. This
+  is used in `Idris.Desugar`. It's quite complex, and I haven't looked at
+  it in detail yet.
 * `Idris.Desugar.Mutual`: Desugars a `mutual` block into two lists
   of `PDecl`s (source language declarations): The first consisting of
   the definitions, the second of the implementations. This shows, that

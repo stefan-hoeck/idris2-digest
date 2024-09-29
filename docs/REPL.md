@@ -70,3 +70,14 @@ Modules
   taking requests and sending responses via a socket.
 * `Idris.IDEMode.SyntaxHighlight`: Provides semantic highlighting via IDE mode.
 * `Idris.IDEMode.TokenLine`: A simple tokenizer for source lines.
+
+## Yaffle
+
+A simplified REPL that runs only on `TTImp`, and I currently have no idea
+what that means. It can be started with `idris2 --yaffle --repl` or,
+alternatively, `idris2 --ttimp --repl`.
+
+Modules:
+
+* `Yaffle.Main`
+* `Yaffle.REPL`

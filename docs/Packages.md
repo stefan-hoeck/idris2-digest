@@ -1,4 +1,4 @@
-# Packages
+# Packages and Modules
 
 Idris packages are defined in `.ipkg` files, which list a package's
 dependencies, the modules it exports, additional fields for building
@@ -148,6 +148,15 @@ in [Core](Core.md])).
 TODO: Building modules clears the context. The whole context? If yes,
 doesn't this slow stuff down? I should check this out.
 
+### Processing Modules
+
+Modules:
+
+* `Idris.ProcessIdr`: Reads and processes modules from source files.
+  Provides functionality for checking if `.ttc` files are up to date,
+  for loading imported modules, and processing whole source files.
+
+
 ## Creating Documentation
 
 * `Idris.Doc.Annotations`: `IdrisDocAnn`, a data type used as annotation during
@@ -168,3 +177,5 @@ doesn't this slow stuff down? I should check this out.
   or constructors type, fixity, totality, and so on.
   This also prints documentation for certain syntactic forms such as literals
   (string, integer, but also list and snoclist, pairs and quotes).
+* `Idris.Syntax.Views`: Some utilities used during doc generations. Haven't looked
+  at them in detail yet.

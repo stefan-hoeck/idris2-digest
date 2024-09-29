@@ -44,7 +44,7 @@ can and what cannot be added to the project between two releases.
 
 * [Main: Point of Entry](docs/Main.md)
 * [Core Functionality](docs/Core.md)
-* [Packages](docs/Packages.md)
+* [Packages and Modules](docs/Packages.md)
 * [The Idris REPL](docs/REPL.md)
 * [Syntax](docs/Syntax.md)
 * [Syntax Trees and Intermediary Representations](docs/Tree.md)
@@ -86,10 +86,6 @@ can and what cannot be added to the project between two releases.
 - [ ] Core.Unify
 - [ ] Core.UnifyState
 - [ ] Core.Value
-- [ ] Idris.Elab.Implementation
-- [ ] Idris.Elab.Interface
-- [ ] Idris.ProcessIdr
-- [ ] Idris.Syntax.Views
 - [ ] TTImp.BindImplicits
 - [ ] TTImp.Elab
 - [ ] TTImp.Elab.Ambiguity
@@ -138,5 +134,3 @@ can and what cannot be added to the project between two releases.
 - [ ] TTImp.Unelab
 - [ ] TTImp.Utils
 - [ ] TTImp.WithClause
-- [ ] Yaffle.Main
-- [ ] Yaffle.REPL
