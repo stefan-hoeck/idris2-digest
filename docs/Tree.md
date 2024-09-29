@@ -191,6 +191,8 @@ knows about. They are listed and explained below. Every binder is annotated
 with a file context (`FC`; see the [section about parsers](Text.md)), the
 quantity (`RigCount`) and implicitness (`PiInfo`).
 
+## High-Level Syntax
+
 ## Type Theory: `TT`
 
 Below is a list of the remaining submodules of `Core.TT` and their content:

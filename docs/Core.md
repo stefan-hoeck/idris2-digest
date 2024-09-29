@@ -77,7 +77,7 @@ with a reference's tag to modify the mutable reference in question.
 Type `Ref` is defined in `Core.Context`, the utilities described above
 in `Core.Core`.
 
-Of special importance is also function `wrapRef`: It safes the current
+Of special importance is also function `wrapRef`: It saves the current
 value of a mutable reference, runs an action in `Core`, and writes the
 stored state back, even in face of an error. As it turns out, it is not
 always clear, when some parts of the global state are reset, and this
@@ -216,13 +216,16 @@ its fields:
   flags for annotating those, and a `Context` type for all known global
   definitions. TODO: More to be said about this.
 
-## TTC Files
+## Binary Files
 
-Elaborated terms are stored by Idris as build artifacts in binary format.
-This is, in general, what is stored when installing a package. Advantages
-are that terms and declarations need not be re-elaborated when loading
+Elaborated terms and meta data are stored by Idris as build
+artifacts in binary format. This is, in general, what
+is stored when installing a package. Advantages are
+that terms and declarations need not be re-elaborated when loading
 them from files, plus generating and reading binary data can be a lot
-faster than human readable text. Here are the key modules involved:
+faster than human readable text
+
+### TTC Files: Elaborated Terms and Declarations
 
 Important note: Whenever the TTC format or the type of information generated
 by the compiler changes, constant `Core.Binary.ttcVersion` has to be updated
@@ -250,3 +253,7 @@ as described in its doc string to make sure we do not try to read outdated
 * `Core.Context.TTC`: A tiny module providing a `TTC` implementation for
   `Core.Context.BuiltinType`.
 * `Idris.Syntax.TTC`: `TTC` implementations for `SyntaxInfo` and related types.
+
+### TTM Files: Metadata
+
+TODO
