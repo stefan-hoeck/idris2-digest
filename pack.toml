@@ -1,0 +1,4 @@
+[custom.all.digest]
+type   = "local"
+path   = "."
+ipkg   = "digest.ipkg"
