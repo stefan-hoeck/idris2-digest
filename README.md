@@ -71,6 +71,23 @@ updated within a function and those that serve as a read-only context.
 It is one of the goals of this source map to shed some light on where
 the Idris context is updated how, but we are not there yet.
 
+### Running Experiments
+
+The more I dig into the compiler sources, the more it becomes clear that
+the only way to make sense of this is to actually write and run some code
+myself. This project therefore comes with a small library for experimenting
+with the compiler pipelines (currently, only the parser).
+
+The first thing required for this are proper pretty printers for most
+data types in the *idris2* codebase. I use the
+[*pretty-show*](https://github.com/stefan-hoeck/idris2-pretty-show) library, with
+which most of these can be derived automatically using elaborator reflection.
+
+As an example, we can use this to parse the source code of a small module
+into the corresponding `Idris.Syntax.Module` data type and pretty print
+the result to standard output (see `Digest.Parse` for an example, how this is
+done).
+
 ## Table of Content
 
 * [Main: Point of Entry](docs/Main.md)
