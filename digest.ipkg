@@ -1,0 +1,17 @@
+package digest
+
+authors    = "stefan-hoeck"
+brief      = "Digesting the Idris compiler sources"
+version    = 0.7.0
+sourcedir  = "src"
+depends    = base         >= 0.7.0
+           , elab-util
+           , pretty-show
+           , quantifiers-extra
+           , idris2
+
+modules = Digest.Parse
+
+        , Digest.Pretty.TT
+        , Digest.Pretty.TTImp
+        , Digest.Pretty.Syntax
