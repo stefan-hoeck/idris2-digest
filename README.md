@@ -40,6 +40,37 @@ can and what cannot be added to the project between two releases.
   advisable to use partially qualified names to resolve
   potential ambiguities in these cases.
 
+## Overview
+
+A general overview over the implementation of Idris on which parts of this
+source map is built can be found in the
+[Idris2 documentation](https://idris2.readthedocs.io/en/latest/implementation/overview.html).
+
+A quick overview of how Idris code is processed: The core language is *TT*
+(quantitative type theory), that is defined in `Core.TT` and some of its
+submodules. A higher level language called *TTImp* (TT with implicits and other
+additional utilities; found in submodules of `TTImp`) is *elaborated* to TT.
+Elaboration relies on *unification* (in `Core.Unify`). The high level language 
+(defined in `Idris.Syntax` as `PTerm'` (terms) and `PDecl` (declarations))
+is parsed from Idris source code and *desugared* to `TTImp`.
+
+During code generation, *TT* is compiled to `CExp` (expressions) and
+`CDef` (top-level definitions) (both defined in `Core.CompileExpr`), run
+through several optimizers and cleanup functions, and converted to
+one of several intermediate representations (IRs), which are used by the
+code generators to output code in the chosen backend's source language.
+Everything related to code generation can be found in the submodules
+of `Compiler`.
+
+Throughout the compiler sources, Idris makes use of the `Core` effect type
+(`IO` plus error handling), and keeps different types of mutable state
+in mutable references. It can be quite confusing figuring out, which parts
+of the code affect which parts of the threaded mutable state, especially
+since there is often no distinction between references that are indeed
+updated within a function and those that serve as a read-only context.
+It is one of the goals of this source map to shed some light on where
+the Idris context is updated how, but we are not there yet.
+
 ## Table of Content
 
 * [Main: Point of Entry](docs/Main.md)

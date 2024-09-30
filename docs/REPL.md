@@ -75,7 +75,7 @@ Modules
 
 A simplified REPL that runs only on `TTImp`, and I currently have no idea
 what that means. It can be started with `idris2 --yaffle --repl` or,
-alternatively, `idris2 --ttimp --repl`.
+alternatively, `idris2 --ttimp --repl`. (TODO)
 
 Modules:
 

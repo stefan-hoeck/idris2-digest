@@ -1,6 +1,6 @@
 # Main: Point of Entry
 
-In this section, we are going to have a look at the first couple
+In this section we are going to have a look at the first couple
 of steps taken when invoking the `main` function, and provide links
 to where additional information can be found.
 
@@ -37,8 +37,8 @@ environment. Here's a simplified list of steps taken:
 * Preprocess command-line options and continue if this returns `True`
 * Invoke `processPackageOpts` (such as `--build` or `--install`) and quit if done.
   This is the entry point into loading and building packages. It will be
-  discussed in greater detail in [Packages](Packages.md).
-* If we are still here, start REPL session or IDE mode:
+  discussed in greater detail in [Packages and Modules](Packages.md).
+* If we are still here, start a REPL session or IDE mode:
   * Set verbosity based on command-line options
   * Initialize unification state
   * Determine the origin based on whether we have a source file to load or not
@@ -46,7 +46,7 @@ environment. Here's a simplified list of steps taken:
   * Update REPL options by setting the preferred editor to use
   * Unless set otherwise, print the Idris banner and
     info about additional code generators (if any)
-  * Find and process `.ipkg` file if required (see [Packages](Packages.md))
+  * Find and process `.ipkg` file if required (see [Packages and Modules](Packages.md))
   * Depending on whether a source file was specified or not, the Prelude or
     the source file is loaded (see [REPL](REPL.md)).
   * Process command-line options again to see whether a proper REPL session should
