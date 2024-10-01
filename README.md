@@ -86,7 +86,9 @@ which most of these can be derived automatically using elaborator reflection.
 As an example, we can use this to parse the source code of a small module
 into the corresponding `Idris.Syntax.Module` data type and pretty print
 the result to standard output (see `Digest.Parse` for an example, how this is
-done).
+done). Likewise, in `Digest.Desugar` a module can be parsed and desugared.
+Note, that for stuff like operators to behave correctly, you might have
+to include the Prelude before running this.
 
 ## Table of Content
 
@@ -111,9 +113,7 @@ done).
 - [ ] Core.Context.Pretty
 - [ ] Core.Coverage
 - [ ] Core.GetType
-- [ ] Core.Hash
 - [ ] Core.LinearCheck
-- [ ] Core.Metadata
 - [ ] Core.Normalise
 - [ ] Core.Normalise.Convert
 - [ ] Core.Normalise.Eval
