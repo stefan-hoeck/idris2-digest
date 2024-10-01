@@ -13,6 +13,7 @@ mod1 =
   """
   module My.Module
 
+  import Prelude
   import System.File
   import public Data.List.Quantifiers as Q
 
@@ -21,6 +22,9 @@ mod1 =
   export covering %inline
   hello : IO ()
   hello = putStrLn "Hello World!"
+
+  compute : Nat -> Nat -> Nat
+  compute x y z = x + y * z
   """
 
 covering

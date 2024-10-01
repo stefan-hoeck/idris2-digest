@@ -3,6 +3,12 @@ module Digest.Context
 
 import Compiler.Common
 import Core.InitPrimitives
+import Core.Directory
+import Idris.Package.Types
+import Idris.SetOptions
+import IdrisPaths
+import Libraries.Utils.Path
+
 import public Core.Context
 import public Core.Core
 import public Core.Metadata
@@ -52,6 +58,9 @@ toMeta @{r} = r.meta
 --------------------------------------------------------------------------------
 
 ||| Initialized the mutable global state to reasonable defaults
+|||
+||| This is a minimal setup: You can load modules from the Prelude
+||| and base, but not from other libraries. It is for testing only.
 export
 initRefs : Core Refs
 initRefs = do
@@ -73,4 +82,11 @@ initRefs = do
 
   -- initialize meta data and write it to a mutable reference
   meta <- newRef MD (initMetadata $ Virtual Interactive)
+
+  -- Update the environment so that the key directories where we
+  -- are looking for installed packages will be set up.
+  setPrefix yprefix
+  addPackageSearchPath !pkgGlobalDirectory
+  addPkgDir "prelude" anyBounds
+  addPkgDir "base" anyBounds
   pure (R ds syn opts ust meta)

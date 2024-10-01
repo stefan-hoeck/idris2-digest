@@ -73,7 +73,7 @@ are run afterwards.
 
 Function `check` is like `build`, but does not compile `main`.
 
-Function `compileMain` initializes meta data and unification state,
+Function `compileMain` initializes metadata and unification state,
 then loads the main file (via `Idris.REPL.loadMainFile`), and finally
 initializes [code generation](Codegen.md) by invoking
 `Idris.REPL.compileExp`.
@@ -101,7 +101,7 @@ Function `installSrcFrom`: TODO
 ### The `--repl` Command
 
 Runs `build` and starts a REPL session via `runRepl`, which sets up
-a new unification state and meta data context, loads the main (if any)
+a new unification state and metadata context, loads the main (if any)
 via `Idris.REPL.loadMainFile`
 before starting a REPL session via `Idris.REPL.repl`
 (see also [The Idris REPL](REPL.idr)).
@@ -179,3 +179,23 @@ Modules:
   (string, integer, but also list and snoclist, pairs and quotes).
 * `Idris.Syntax.Views`: Some utilities used during doc generations. Haven't looked
   at them in detail yet.
+
+## Additional Utilities and Information
+
+We store additional information about packages such as module metadata
+and source hashes. These are summarized here.
+
+### Metadata
+
+Modules not only provide top-level declarations that can be used in
+other modules, but come with additional metadata needed elsewhere.
+
+* `Core.Metadata`: Provides record type `Metadata` plus utilities for
+  storing and retrieving information from such records. Metadata contains
+  information about holes, declared types, source locations and semantic
+  decorations. Metadata is stored in binary form in `.ttm` files.
+
+### Hashes
+
+* `Core.Hash`: Utilities for hashing module interfaces to figure out if
+  a module has to be reloaded or not.
