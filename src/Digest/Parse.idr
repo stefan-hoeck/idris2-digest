@@ -7,6 +7,7 @@ import System
 virt : OriginDesc
 virt = Virtual Interactive
 
+export
 mod1 : String
 mod1 =
   """
@@ -26,7 +27,7 @@ covering
 mod : EmptyRule Module
 mod = prog virt
 
-covering
+export covering
 parseModule : String -> Maybe Module
 parseModule s =
   case runParser virt Nothing s mod of
