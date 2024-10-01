@@ -193,6 +193,36 @@ quantity (`RigCount`) and implicitness (`PiInfo`).
 
 ## High-Level Syntax
 
+High-level Idris syntax is lexed and parsed into expressions and
+declarations as defined in `Idris.Syntax.PTerm'` (expressions) and
+`Idris.Syntax.PDecl'` (declarations). For every high-level construct
+with the exception of module imports (these are listed separately
+in `Idris.Syntax.Module`) there is a corresponding data constructor
+in one of these tree types.
+
+This library provides a pretty printer for high-level syntax trees, so
+it is possible to experiment with your own snippets of Idris source
+code and see what they get converted to. See `main` in `Digest.Parse`.
+
+## Type Theory with Implicits: `TTImp`
+
+High-level syntax gets desugared to `TTImp.TTImp.RawImp'` (expressions)
+and `TTImp.TTImp.ImpDecl'` (declarations) via the functionality found
+in `Idris.Desugar`. Again, it is possible to experiment with your own
+Idris snippets with the functionality from `Digest.Desugar`. Please note,
+that for desugaring we need a correctly set up environment. Currently,
+the Prelude and base are loaded into the context, so you can use those
+in your module imports.
+
+Modules
+
+* `TTImp.TTImp`: Trees for expressions and declarations with implicits.
+* `TTImp.TTImp.Functor`: Functor implementations for the data types in
+  `TTImp.TTImp`.
+* `TTImp.TTImp.Traversals`: Pure mappings of expressions and declarations
+  over functions of type `RawImp' nm -> RawImp' nm`.
+
+
 ## Type Theory: `TT`
 
 Below is a list of the remaining submodules of `Core.TT` and their content:

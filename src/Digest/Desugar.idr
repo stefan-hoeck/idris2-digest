@@ -1,8 +1,9 @@
 module Digest.Desugar
 
-import Digest.Parse
 import Digest.Context
+import Digest.Parse
 import Digest.Pretty.TTImp
+import Digest.Util
 
 import Idris.Desugar
 import Idris.ProcessIdr
@@ -26,10 +27,8 @@ prog m = do
   ds   <- desugarModule m
   traverse_ (coreLift . putPretty) ds
 
-run : Core () -> IO ()
-run p = coreRun p (\x => printLn x) pure
-
 main : IO ()
-main =
-  let Just m := parseModule mod1 | Nothing => die "invalid module"
-   in run (prog m)
+main = run $ do
+  mod <- readModule
+  m   <- parseModule mod
+  prog m

@@ -176,9 +176,6 @@ to include the Prelude before running this.
 - [ ] TTImp.ProcessTransform
 - [ ] TTImp.ProcessType
 - [ ] TTImp.Reflect
-- [ ] TTImp.TTImp
-- [ ] TTImp.TTImp.Functor
-- [ ] TTImp.TTImp.Traversals
 - [ ] TTImp.Unelab
 - [ ] TTImp.Utils
 - [ ] TTImp.WithClause

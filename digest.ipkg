@@ -10,8 +10,10 @@ depends    = base         >= 0.7.0
            , quantifiers-extra
            , idris2
 
-modules = Digest.Parse
+modules = Digest.Context
         , Digest.Desugar
+        , Digest.Parse
+        , Digest.Util
 
         , Digest.Pretty.TT
         , Digest.Pretty.TTImp
