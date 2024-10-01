@@ -1,44 +1,25 @@
 module Digest.Parse
 
 import Digest.Pretty.Syntax
+import Digest.Util
 import Idris.Parser
 import System
-
-virt : OriginDesc
-virt = Virtual Interactive
-
-export
-mod1 : String
-mod1 =
-  """
-  module My.Module
-
-  import Prelude
-  import System.File
-  import public Data.List.Quantifiers as Q
-
-  %default total
-
-  export covering %inline
-  hello : IO ()
-  hello = putStrLn "Hello World!"
-
-  compute : Nat -> Nat -> Nat
-  compute x y z = x + y * z
-  """
 
 covering
 mod : EmptyRule Module
 mod = prog virt
 
 export covering
-parseModule : String -> Maybe Module
+parseModule : String -> Core Module
 parseModule s =
   case runParser virt Nothing s mod of
-    Right (_,_,m) => Just m
-    _             => Nothing
+    Right (_,_,m) => pure m
+    Left err      => coreFail err
 
+-- reads the file given as the command-line argument (or loads `mod1` instead)
+-- parses it into a `Idris.Syntax.Module` record and pretty-prints the result.
 main : IO ()
-main =
-  let Just m := parseModule mod1 | Nothing => die "invalid module"
-   in putPretty m
+main = run $ do
+  mod <- readModule
+  m   <- parseModule mod
+  coreLift $ putPretty m
