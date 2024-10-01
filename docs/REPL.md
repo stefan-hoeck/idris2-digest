@@ -81,3 +81,24 @@ Modules:
 
 * `Yaffle.Main`
 * `Yaffle.REPL`
+
+## Interactive Editing
+
+Idris provides different utilities for interactive editing that can simplify
+many programming tasks. These are implemented in submodules of
+`TTImp.Interactive` and are available at the REPL as well as in IDE mode.
+
+Modules:
+
+* `TTImp.Interactive.CaseSplit`: Implements case-splitting functionality.
+  Generates clauses for each of the data constructors of the type we split on.
+* `TTImp.Interactive.Completion`: Provides auto completion for names, pragmas,
+  and commands.
+* `TTImp.Interactive.ExprSearch`: Expression search tries to replace a hole
+  with a value of the desired type. This uses proof search internally but
+  allows for the search result to be non-unique.
+* `TTImp.Interactive.GenerateDef`: Utilities for generating skeletton
+  definitions.
+* `TTImp.Interactive.Intro`: Don't know yet what this does (TODO).
+* `TTImp.Interactive.MakeLemma`: Utilities for lifting a hole into a
+  new top-level function (a "lemma").
