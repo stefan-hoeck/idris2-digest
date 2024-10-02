@@ -15,6 +15,7 @@ modules = Digest.Context
         , Digest.Parse
         , Digest.Util
 
+        , Digest.Pretty.Context
         , Digest.Pretty.TT
         , Digest.Pretty.TTImp
         , Digest.Pretty.Syntax
