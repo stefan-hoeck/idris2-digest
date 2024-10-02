@@ -33,6 +33,20 @@ context (from loading the main file at the REPL or the main module
 of an `.ipkg` file). This invokes `prepareExp`, followed by running
 `Compiler.Common.compileExpr` on the selected code generator.
 
+## Evaluation
+
+The REPL supports several modes of evaluation.
+
+Modules (TODO):
+
+* `Core.SchemeEval`
+* `Core.SchemeEval.Builtins`
+* `Core.SchemeEval.Compile`
+* `Core.SchemeEval.Evaluate`
+* `Core.SchemeEval.Quote`
+* `Core.SchemeEval.ToScheme`
+
+
 ## IDE Mode
 
 In IDE mode, Idris is run as a server that can take requests from and
