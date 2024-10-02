@@ -98,6 +98,7 @@ to include the Prelude before running this.
 * [The Idris REPL](docs/REPL.md)
 * [Syntax](docs/Syntax.md)
 * [Syntax Trees and Intermediary Representations](docs/Tree.md)
+* [Elaboration](docs/Elab.md)
 * [Code Generation and Backends](docs/Codegen.md)
 * [Dealing with Text: Lexing, Parsing, and Pretty Printing](docs/Text.md)
 * [Utility Modules in `Libraries`](docs/Libraries.md)
@@ -119,17 +120,6 @@ to include the Prelude before running this.
 - [ ] Core.Normalise.Eval
 - [ ] Core.Normalise.Quote
 - [ ] Core.Reflect
-- [ ] Core.SchemeEval
-- [ ] Core.SchemeEval.Builtins
-- [ ] Core.SchemeEval.Compile
-- [ ] Core.SchemeEval.Evaluate
-- [ ] Core.SchemeEval.Quote
-- [ ] Core.SchemeEval.ToScheme
-- [ ] Core.Termination
-- [ ] Core.Termination.CallGraph
-- [ ] Core.Termination.Positivity
-- [ ] Core.Termination.References
-- [ ] Core.Termination.SizeChange
 - [ ] Core.Transform
 - [ ] Core.Unify
 - [ ] Core.UnifyState
@@ -155,7 +145,6 @@ to include the Prelude before running this.
 - [ ] TTImp.Elab.RunElab
 - [ ] TTImp.Elab.Term
 - [ ] TTImp.Elab.Utils
-- [ ] TTImp.Impossible
 - [ ] TTImp.Parser
 - [ ] TTImp.PartialEval
 - [ ] TTImp.ProcessBuiltin
