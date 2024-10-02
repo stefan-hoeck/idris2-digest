@@ -155,6 +155,15 @@ Modules:
 * `Idris.ProcessIdr`: Reads and processes modules from source files.
   Provides functionality for checking if `.ttc` files are up to date,
   for loading imported modules, and processing whole source files.
+  When a module is being processed (in `processMod`), the metadata
+  of its imports is loaded (`readImportMeta`) and (after checking
+  if the module is up-to-date), imports are processed in full before
+  elaborating all top-level declarations via `TTImp.Elab.Check.processDecl`,
+  which is the entry point into [elaboration](Elab.md).
+
+  Note, that `processMod` expects the imported modules to have already
+  been processed (transitively) (see the section about module trees
+  above).
 
 
 ## Creating Documentation

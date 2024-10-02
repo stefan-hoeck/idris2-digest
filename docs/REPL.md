@@ -95,6 +95,8 @@ Modules:
 
 * `Yaffle.Main`
 * `Yaffle.REPL`
+* `TTImp.Parser`: Seems to be used for parsing Yaffle command. Haven't checked
+  in detail.
 
 ## Interactive Editing
 
