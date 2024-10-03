@@ -1,6 +1,7 @@
 ||| `PrettyVal` implementations for `TTImp` terms and declarations.
 module Digest.Pretty.TTImp
 
+import Core.Case.CaseTree
 import Data.List.Quantifiers.Extra
 import Derive.Prelude
 import public Digest.Pretty.TT
@@ -41,3 +42,15 @@ declImpl (IRunElabDecl _ x)   = con "IRunElabDecl" [x]
 declImpl (IPragma _ x y)      = con "IPragma" [x]
 declImpl (ILog x)             = con "ILog" [x]
 declImpl (IBuiltin _ x y)     = con "IBuiltin" [x, y]
+
+caseTreeImpl : CaseTree ns -> Value
+
+export %inline
+PrettyVal (CaseTree ns) where prettyVal = caseTreeImpl
+
+%runElab deriveIndexed "CaseAlt" [PrettyVal]
+
+caseTreeImpl (Case x p y z)  = con "Case" [x,y,z]
+caseTreeImpl (STerm i t)     = con "STerm" [i,t]
+caseTreeImpl (Unmatched msg) = con "Unmatched" [msg]
+caseTreeImpl Impossible      = Con "Impossible" []

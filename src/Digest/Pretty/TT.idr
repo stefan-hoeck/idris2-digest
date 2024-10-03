@@ -105,6 +105,7 @@ PrettyVal (Var n) where
 %runElab derive "Visibility" [PrettyVal]
 %runElab derive "BindingModifier" [PrettyVal]
 %runElab derive "BuiltinType" [PrettyVal]
+%runElab deriveIndexed "PrimFn" [PrettyVal]
 
 export
 {v : _} -> PrettyVal (WithDefault Visibility v) where
