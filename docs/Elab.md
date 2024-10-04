@@ -31,3 +31,20 @@ Modules (TODO):
 * `Core.Normalise.Convert`
 * `Core.Normalise.Eval`
 * `Core.Normalise.Quote`
+
+## Elaboration
+
+Modules:
+
+* `TTImp.Elab.Check`: Interface for main checker function plus additional
+  functionality. Also defines `EState ns`, the state type used during
+  elaboration.
+* `TTImp.ProcessDecls`: Implements `TTImp.Elab.Check.processDecl`. This is
+  the starting point for elaborating top-level declarations. Several utility
+  top-level constructs such as `namespace`s or pragmas are not very hard
+  to understand. For `failing` blocks, it is interesting to see that the
+  global state is stored before and reset after elaborating the block
+  to make sure the declarations in the `failing` block do not pollute
+  the outer namespace.
+* `TTImp.ProcessFnOpt`: Processes function options such as `%inline`
+  or `%foreign`.

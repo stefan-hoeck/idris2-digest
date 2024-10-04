@@ -18,6 +18,10 @@ when case trees or `where` blocks are moved to the top level.
   (underscores: '_'). Data type `Name` adds support for names in a
   namespace as well as machine generated names, names from `case`
   and `with` blocks, and some others.
+
+  About the `Resolved` data constructor: These are *resolved* names,
+  that is, names represented as integer indices pointing directly into
+  the `content` field of the current `Context`.
 * `Core.Name.Scoped`: While names are useful for human readability, they
   can be cumbersome when working with syntax trees. There are many
   tree conversions used throughout the compiler sources and for these

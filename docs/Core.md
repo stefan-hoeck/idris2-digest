@@ -157,8 +157,9 @@ of the pieces it contains.
     logging and timing amongst many others.
   * `PPrint` defines settings to be used when pretty printing stuff,
     especially related to names.
-  * `PairNames`: TODO (don't know yet what they are used for)
-  * `RewriteNames`: TODO (don't know yet what they are used for)
+  * `PairNames`: Settings from the `%pair` pragma, which is used to
+    look into pairs during proof search.
+  * `RewriteNames`: Type and function to use in `rewrite` tactics.
   * `Options` is a record type used for grouping the above mentioned
     options plus some additional ones such as currently active language
     extensions.
@@ -212,9 +213,67 @@ its fields:
 
 ### Context
 
+Module `Core.Context.Context` describes several key data types used
+during the compilation process:
+
+* `GlobalDef`: A top-level definition in a module encoded as a record
+  type with all the necessary additional information listed in its
+  fields:
+
+  * `location`: the file context of the definition
+  * `fullname`: fully qualified name (unresolved; see [Names and Namespaces](Tree.md))
+  * `type`: type of the definition as a `ClosedTerm`
+  * `eraseArgs`: arguments to erase at runtime
+  * `safeErase`: not sure about this one (TODO)
+  * `specArgs`: arguments used for specialization (no experience with
+    specialization yet; TODO)
+  * `inferrable`: arguments inferrable from elsewhere in the type
+  * `multiplicity`: the multiplicity of the top-level definition.
+  * `localVars`: environment. not sure when this is non-empty
+  * `visibility`: `public export`, `export`, or `private`
+  * `totality`: result of totality checking (is it total or covering)
+  * `isEscapeHatch`: no idea (TODO)
+  * `flags`: flags on top-level definition such as `%inline` or `%foreign`
+  * `refersToM`: no idea (TODO)
+  * `refersToRuntimeM`: no idea (TODO)
+  * `invertible`: no idea (TODO)
+  * `noCycles`: no idea (TODO)
+  * `linearChecked`: has linearity been checked
+  * `definition`: function definition
+  * `compexpr`: the compiled expression (if it has been compiled yet)
+  * `namedcompexpr`: the named compiled expression (if it has been compiled yet)
+  * `sizechange`: size change matrix for recursive functions
+  * `schemeExpr`: compiled Scheme expression (if it has been compiled for
+    Scheme evaluation)
+
+* `Context`: Record type representing the compilation context including
+  already compiled definitions in scope. The relevant record fields:
+  * `content`: A mutable array of context entries. These are `GlobalDef`s,
+    either in (binary) encoded or decoded form.
+  * `firstEntry`: index in `content` of first entry of current module
+  * `nextEntry`: index of the next entry to be processed
+  * `resolvedAs`: map for converting full names to their index in `content`
+  * `possibles`: map from user names to possible fully resolved names
+    (for ambiguity resolution)
+  * `branchDepth`: branching depth (0 means we are at the top level)
+  * `staging`: things to add if this branch succeeds
+  * `visibleNS`: visible (that is, imported) namespaces
+  * `allPublic`: whether to treat all definitions as public. Set to true
+    during a REPL session, false during the main compilation process)
+  * `inlineOnly`: not sure about this (TODO)
+  * `hidden`: names not to be returned (things get put here via a
+    `%hide Foo.Bar` pragma)
+  * `uconstraints`: no idea (TODO)
+
+Modules:
 * `Core.Context.Context`: Provides types for top-level definitions,
   flags for annotating those, and a `Context` type for all known global
-  definitions. TODO: More to be said about this.
+  definitions.
+* `Core.Context`: Defines data type `Defs`, the state used while processing
+  the declarations of a module.
+* `Core.Context.Pretty`: Pretty printers for `Core.Context.Context.Def`
+* `Core.Context.Data`: Utility `addData` for adding processed data
+  definitions to the context
 
 ## Binary Files
 
