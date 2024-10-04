@@ -50,16 +50,12 @@ mod1 =
   """
   module My.Module
 
-  import Prelude
-  import System.File
-  import public Data.List.Quantifiers as Q
+  import Data.DPair
+  import Data.List
 
   %default total
 
-  export covering %inline
-  hello : IO ()
-  hello = putStrLn "Hello World!"
-
-  compute : Nat -> Nat -> Nat
-  compute x y z = x + y * z
+  export
+  test : Subset (List a) NonEmpty -> String 
+  test (Element x _) = ?fooo
   """
