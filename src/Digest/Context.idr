@@ -94,6 +94,11 @@ initRefs = do
   addPkgDir "base" anyBounds
   pure (R ds syn opts ust meta)
 
+||| Pretty prints a value to standard output
+export %inline
+dump : PrettyVal a => a -> Core ()
+dump =  coreLift . putPretty
+
 ||| Dumps all definitions.
 |||
 ||| Caution: This will generate a lot of output and typically last several
@@ -101,8 +106,6 @@ initRefs = do
 ||| have been loaded.
 |||
 ||| However, it can be highly illuminating to inspect what's going on in here.
-export
+export %inline
 dumpDefs : Refs => Core ()
-dumpDefs = do
-  defs <- get Ctxt
-  coreLift $ putPretty defs
+dumpDefs = get Ctxt >>= dump

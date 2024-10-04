@@ -110,8 +110,6 @@ to include the Prelude before running this.
 - [ ] Core.Case.CaseTree
 - [ ] Core.Case.CaseTree.Pretty
 - [ ] Core.Case.Util
-- [ ] Core.Context.Data
-- [ ] Core.Context.Pretty
 - [ ] Core.Coverage
 - [ ] Core.GetType
 - [ ] Core.LinearCheck

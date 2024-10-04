@@ -2,6 +2,7 @@ module Digest.Desugar
 
 import Digest.Context
 import Digest.Parse
+import Digest.Pretty.Context
 import Digest.Pretty.TTImp
 import Digest.Util
 
@@ -26,7 +27,9 @@ prog m = do
   refs <- initRefs
   ds   <- desugarModule m
   traverse_ (coreLift . putPretty) ds
-  dumpDefs
+  defs <- get Ctxt
+  ts   <- lookupCtxtName "index" defs.gamma
+  traverse_ dump ts
 
 main : IO ()
 main = run $ do
