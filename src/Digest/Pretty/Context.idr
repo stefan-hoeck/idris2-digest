@@ -11,11 +11,14 @@ import Libraries.Data.IntMap
 import Libraries.Data.NameMap
 import Libraries.Data.SparseMatrix
 import Libraries.Data.UserNameMap
+import Libraries.Data.StringMap
+import Libraries.Data.StringTrie
 import Libraries.Utils.Binary
 import Libraries.Utils.Scheme
 import Core.CompileExpr
 import Core.Env
 import Core.Case.CaseTree
+import Core.Options.Log
 
 %language ElabReflection
 %hide Language.Reflection.TTImp.Clause
@@ -25,8 +28,16 @@ PrettyVal v => PrettyVal (NameMap v) where
   prettyVal = prettyVal . NameMap.toList
 
 export
+PrettyVal LogLevels where
+  prettyVal _ = Con "loglevels" []
+
+export
 PrettyVal v => PrettyVal (IntMap v) where
   prettyVal = prettyVal . IntMap.toList
+
+export
+PrettyVal v => PrettyVal (StringMap v) where
+  prettyVal = prettyVal . StringMap.toList
 
 export
 PrettyVal v => PrettyVal (UserNameMap v) where
@@ -111,3 +122,16 @@ PrettyVal ForeignObj where prettyVal _ = Con "fgnObj" []
 %runElab derive "PossibleName" [PrettyVal]
 %runElab derive "ContextEntry" [PrettyVal]
 %runElab derive "Context" [PrettyVal]
+%runElab derive "Core.Options.CG" [PrettyVal]
+%runElab derive "Core.Options.PairNames" [PrettyVal]
+%runElab derive "Core.Options.RewriteNames" [PrettyVal]
+%runElab derive "PrimNames" [PrettyVal]
+%runElab derive "ElabDirectives" [PrettyVal]
+%runElab derive "PPrinter" [PrettyVal]
+%runElab derive "Dirs" [PrettyVal]
+%runElab derive "Session" [PrettyVal]
+%runElab derive "LangExt" [PrettyVal]
+%runElab derive "Core.Options.Options" [PrettyVal]
+%runElab derive "Transform" [PrettyVal]
+%runElab derive "Warning" [PrettyVal]
+%runElab derive "Defs" [PrettyVal]

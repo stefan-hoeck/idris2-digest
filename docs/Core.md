@@ -157,8 +157,9 @@ of the pieces it contains.
     logging and timing amongst many others.
   * `PPrint` defines settings to be used when pretty printing stuff,
     especially related to names.
-  * `PairNames`: TODO (don't know yet what they are used for)
-  * `RewriteNames`: TODO (don't know yet what they are used for)
+  * `PairNames`: Settings from the `%pair` pragma, which is used to
+    look into pairs during proof search.
+  * `RewriteNames`: Type and function to use in `rewrite` tactics.
   * `Options` is a record type used for grouping the above mentioned
     options plus some additional ones such as currently active language
     extensions.

@@ -26,6 +26,7 @@ prog m = do
   refs <- initRefs
   ds   <- desugarModule m
   traverse_ (coreLift . putPretty) ds
+  dumpDefs
 
 main : IO ()
 main = run $ do

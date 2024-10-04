@@ -9,6 +9,9 @@ import Idris.SetOptions
 import IdrisPaths
 import Libraries.Utils.Path
 
+import Digest.Pretty.Context
+import Digest.Util
+
 import public Core.Context
 import public Core.Core
 import public Core.Metadata
@@ -90,3 +93,16 @@ initRefs = do
   addPkgDir "prelude" anyBounds
   addPkgDir "base" anyBounds
   pure (R ds syn opts ust meta)
+
+||| Dumps all definitions.
+|||
+||| Caution: This will generate a lot of output and typically last several
+||| seconds up to several minutes depending on how many modules (and imports!)
+||| have been loaded.
+|||
+||| However, it can be highly illuminating to inspect what's going on in here.
+export
+dumpDefs : Refs => Core ()
+dumpDefs = do
+  defs <- get Ctxt
+  coreLift $ putPretty defs

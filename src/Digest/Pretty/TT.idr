@@ -81,9 +81,13 @@ export
 PrettyVal (Var n) where
   prettyVal (MkVar {varIdx} _) = Con "MkVar" [Natural $ show varIdx]
 
+export
+PrettyVal FC where
+  prettyVal _ = Con "fc" []
+
 %runElab derive "VirtualIdent" [PrettyVal]
 %runElab derive "OriginDesc" [PrettyVal]
-%runElab derive "FC" [PrettyVal]
+-- %runElab derive "FC" [PrettyVal]
 %runElab derive "Core.Name.UserName" [PrettyVal]
 %runElab derive "Core.Name.Name" [PrettyVal]
 %runElab derive "Fixity" [PrettyVal]
