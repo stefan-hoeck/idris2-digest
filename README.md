@@ -106,11 +106,6 @@ to include the Prelude before running this.
 ## TODO Module List
 
 - [ ] Core.AutoSearch
-- [ ] Core.Case.CaseBuilder
-- [ ] Core.Case.CaseTree
-- [ ] Core.Case.CaseTree.Pretty
-- [ ] Core.Case.Util
-- [ ] Core.Coverage
 - [ ] Core.GetType
 - [ ] Core.LinearCheck
 - [ ] Core.Reflect
