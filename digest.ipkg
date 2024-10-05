@@ -11,11 +11,13 @@ depends    = base         >= 0.7.0
            , idris2
 
 modules = Digest.Context
+        , Digest.Elab
         , Digest.Desugar
         , Digest.Parse
         , Digest.Util
 
         , Digest.Pretty.Context
+        , Digest.Pretty.Holes
         , Digest.Pretty.TT
         , Digest.Pretty.TTImp
         , Digest.Pretty.Syntax

@@ -21,7 +21,6 @@ desugarModule m = do
   traverse_ addImport (imports m)
   join <$> traverse (desugarDecl []) m.decls
 
-export
 prog : Module -> Core ()
 prog m = do
   refs <- initRefs

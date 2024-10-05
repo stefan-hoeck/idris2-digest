@@ -115,7 +115,7 @@ of the generated code (an order of magnitude in pathological cases)
 and drop down in performance when complex and nested record types (interface
 implementations!) are rebuilt time again.
 
-CSE recognizes such reoccuring expressions, extracts them from
+CSE recognizes such reocurring expressions, extracts them from
 definitions and moves them to the top-level, giving them a new,
 machine-generated name. This is somewhat the opposite of what
 inlining does (see below), so we have to take some care not to move
