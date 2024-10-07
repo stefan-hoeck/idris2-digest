@@ -79,11 +79,23 @@ Modules (TODO):
 
 Modules:
 
+* `TTImp.Utils`: Lots of utilities used during elaboration (TODO)
+* `TTImp.BindImplicits`: Utilities for generating bindings for parameters.
 * `TTImp.Elab.Check`: Interface for main checker function plus additional
   functionality. Also defines `EState ns`, the state type used during
   elaboration.
+
+## Processing Top-Level Declarations
+
+In these modules, top-level (and, sometimes, nested) declarations are processed
+and elaborated. All of these update the current context instead of returning
+some elaborated result, because the effect of different top-level constructs
+(data definitions, pragmas, transform rules, declarations and definitions)
+vary a lot.
+
+Modules:
 * `TTImp.ProcessDecls`: Implements `TTImp.Elab.Check.processDecl`. This is
-  the starting point for elaborating top-level declarations. Several utility
+  the entry point into elaborating top-level declarations. Several utility
   top-level constructs such as `namespace`s or pragmas are not very hard
   to understand. For `failing` blocks, it is interesting to see that the
   global state is stored before and reset after elaborating the block
@@ -91,3 +103,34 @@ Modules:
   the outer namespace.
 * `TTImp.ProcessFnOpt`: Processes function options such as `%inline`
   or `%foreign`.
+* `TTImp.ProcessBuiltin`: Utility for verifying a `%builtin` pragma.
+* `TTImp.ProcessData`: Processes data definitions.
+* `TTImp.ProcessDecls.Totality`: Checks totality of a group of definitions
+  (for instance, of a whole source file) by invoking `Core.Termination.checkTotal`).
+  Note: This is just invoke if termination info is actually required.
+* `TTImp.ProcessDef`: Elaboration of function definitions. Probably the most
+  complex of the `ProcessXY` source files. Definitely worth a closer look.
+  TODO.
+* `TTImp.ProcessParams`: Processing of `parameters` blocks. The list of
+  parameters is converted to a function type, which is elaborated with
+  its environment being prepended to the current environment. This way,
+  all parameters can be read from the environment when elaborating
+  the declarations in the block.
+* `TTImp.ProcessRecord`: Processing record types, which includes adding getters
+  for the record's fields.
+* `TTImp.ProcessRunElab`: Processes a `%runElab` directive.
+* `TTImp.ProcessTransform`: Processing of `%transform` rules.
+* `TTImp.ProcessType`: Processes a function declaration. This includes
+  verifying that the function name has not already been defined in the
+  current namespace, finding inferrable argument types, and checking its type
+  and converting it to closed term.
+
+## Elaborator Reflection
+
+TODO
+
+Modules:
+* `Core.Reflect`: Some utilities plus two interfaces (`Reflect` and `Reify`) used
+  during elaborator reflection. Plus lots of implementations for these interfaces.
+* `TTImp.Reflect`: Additional implementations of `Reflect` and `Reify` interfaces.
+* `TTImp.Elab.RunElab`: Main driver for elaborator reflection. TODO
