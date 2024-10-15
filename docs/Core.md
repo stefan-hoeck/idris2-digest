@@ -6,10 +6,11 @@ logging, and the main context containing all settings and definitions.
 
 ## Command-Line Options
 
-These are handled in module `Idris.CommandLine`
+These are handled in modules `Idris.CommandLine` and `Idris.SetOptions`
 where also auto-completion functionality and scripts are defined as
 well as parsers for command-line options plus help texts.
 
+Modules:
 * `Idris.CommandLine`: Command-line options, their parser, and help text.
 * `Idris.SetOptions`: Auto-completion script, setting of session options
   (see also `Core.Options.Session`). It also contains utilities for resolving
@@ -63,6 +64,7 @@ The content of `Core.Core` consists mostly of utilities for working with and
 printing `Error`s plus the aforementioned combinators for working with
 the `Core` effect type.
 
+Modules:
 * `Core.Core`: The `Core` effect type and `Error` (Idris errors)
 * `Idris.Error`: Pretty printing of errors and warnings
 
@@ -145,7 +147,7 @@ of the pieces it contains.
   command-line arguments and environment variables. The following data types
   are defined and used:
   * `Dirs`: Different directories where Idris looks for stuff
-    (see also the *Directories* section below).
+    (see also the [Directories](#Directories) section below).
   * `CG`: Known code generators.
   * `PrimNames`: Names of functions used for conversion of literals.
     These are specified in the Prelude using the pragmas
@@ -221,8 +223,8 @@ during the compilation process:
   fields:
 
   * `location`: the file context of the definition
-  * `fullname`: fully qualified name (unresolved; see [Names and Namespaces](Tree.md))
-  * `type`: type of the definition as a `ClosedTerm`
+  * `fullname`: fully qualified name (unresolved; see [Names and Namespaces](Tree.md#names-and-namespaces))
+  * `type`: type of the definition as a [`ClosedTerm`](Tree.md#type-theory-tt))
   * `eraseArgs`: arguments to erase at runtime
   * `safeErase`: not sure about this one (TODO)
   * `specArgs`: arguments used for specialization (no experience with
@@ -291,6 +293,7 @@ by the compiler changes, constant `Core.Binary.ttcVersion` has to be updated
 as described in its doc string to make sure we do not try to read outdated
 `.ttc` files with later versions of the compiler.
 
+Modules:
 * `Core.Binary.Prims`: This provides interface `TTC` (type theory code) for
   converting Idris values from and to binary representation. This involves
   a mutable buffer to which data is written, that keeps track of its
