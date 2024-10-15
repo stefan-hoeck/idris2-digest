@@ -108,7 +108,6 @@ to include the Prelude before running this.
 - [ ] Core.AutoSearch
 - [ ] Core.GetType
 - [ ] Core.LinearCheck
-- [ ] Core.Reflect
 - [ ] Core.Transform
 - [ ] Core.Unify
 - [ ] Core.UnifyState
@@ -129,10 +128,8 @@ to include the Prelude before running this.
 - [ ] TTImp.Elab.Quote
 - [ ] TTImp.Elab.Record
 - [ ] TTImp.Elab.Rewrite
-- [ ] TTImp.Elab.RunElab
 - [ ] TTImp.Elab.Term
 - [ ] TTImp.Elab.Utils
 - [ ] TTImp.PartialEval
-- [ ] TTImp.Reflect
 - [ ] TTImp.Unelab
 - [ ] TTImp.WithClause
