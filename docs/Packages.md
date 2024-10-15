@@ -158,8 +158,9 @@ Modules:
   for loading imported modules, and processing whole source files.
   When a module is being processed (in `processMod`), the metadata
   of its imports is loaded (`readImportMeta`) and (after checking
-  if the module is up-to-date), imports are processed in full before
-  elaborating all top-level declarations via `TTImp.Elab.Check.processDecl`,
+  if the module is up-to-date), imports are processed in full, top-level
+  declarations are [desugared](Syntax.md#desugaring) and elaborated
+  via `TTImp.Elab.Check.processDecl`,
   which is the entry point into [elaboration](Elab.md).
 
   Note, that `processMod` expects the imported modules to have already

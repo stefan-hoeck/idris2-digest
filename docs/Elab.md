@@ -4,6 +4,27 @@ At the heart (or core) of Idris lies the elaborator. In this section, I'm going
 to look at different aspects of elaboration. I'm by no means an expert in these
 things, so there might be some gaping holes and wrong assumptions.
 
+## Point of Entry: `TTImp.Elab.Check.processDecl`
+
+From a module processing point of view, the main entry point into elaboration
+is function `TTImp.Elab.Check.processDecl`. This takes a top-level declaration
+(of type `TTImp.TTImp.ImpDecl`) and processes it via a pattern match and calls
+to the necessary subroutines.
+
+Function `processDecl` takes several additional arguments, the meaning of
+which are described below:
+
+* `List ElapOpt`: Optional flags used during elaboration. Here are the
+  available flags and their meaning:
+  * `HolesOkay`: This is set in `TTImp.ProcessType.processType` when invoking
+    `checkTerm` but seems not to be used there.
+  * `InCase`: This is set in `TTImp.Elab.Case.caseBlock` to inform that we
+    are currently in a case block. It affects the behavior of several parts
+    of the elaborator.
+  * `InTrans`: Informs that we are elaborating a `%transform` declaration.
+    It is set in `TTImp.ProcessTransform.processTransform` and affects
+    unification of holes (see `Core.UnifyState.checkUserHolesAfter`).
+
 ## Case Trees
 
 Case expressions and pattern matches are converted to *case trees* during
@@ -74,6 +95,15 @@ Modules (TODO):
 * `Core.Normalise.Convert`
 * `Core.Normalise.Eval`
 * `Core.Normalise.Quote`
+* `Core.Value`
+
+## Unification
+
+Modules (TODO):
+
+* `Core.UnifyState`
+* `Core.Unify`
+* `Core.AutoSearch`: Implements `Core.Unify.search`
 
 ## Elaboration
 
@@ -84,6 +114,42 @@ Modules:
 * `TTImp.Elab.Check`: Interface for main checker function plus additional
   functionality. Also defines `EState ns`, the state type used during
   elaboration.
+* `Core.GetType`: Provides utility `getType` for (re)computing the type of an
+  already elaborated thing.
+* `Core.LinearCheck`: Implements linearity check (TODO)
+* `Core.Transform`: Provides function `applyTransforms`, which is used
+  for applying `%transform` rules when compiling runtime case trees
+  (see `TTImp.ProcessDef.mkRunTime`).
+* `TTImp.Elab.Ambiguity`: Implements ambiguity resolution.
+* `TTImp.Elab.App`: Elaboration of function application (explicit, named,
+  and auto implicit)
+* `TTImp.Elab.As`: Provides `checkAs` for checking *as-patterns*
+  (such as `x` in `x@(...)`).
+* `TTImp.Elab.Binders`: Elaboration of binders (pi types, `let`, and lambdas)
+* `TTImp.Elab.Case`: Elaboration of case blocks
+* `TTImp.Elab.Delayed`: Not sure yet when this is used (TODO)
+* `TTImp.Elab.Dot`: Checking dot patterns (TODO)
+* `TTImp.Elab.Hole`: Elaboration of holes (TODO)
+* `TTImp.Elab.ImplicitBind`: This is used for checking implicit name bindings.
+  These are introduce during pattern matches and via unbound implicits as
+  type variables.
+* `TTImp.Elab.Lazy`: Machinery for checking delayed and forced computations.
+* `TTImp.Elab.Local`: Elaboration of local definitions (in `where` blocks, I think?),
+  and `ICaseLocal` things (don't know yet where this comes from: TODO)
+* `TTImp.Elab.Prim`: Elaboration of primitives (of type `Constant`) converting
+  them to the corresponding type and value.
+* `TTImp.Elab.Quote`: Elaboration of quoted names, terms, and declarations. (TODO)
+* `TTImp.Elab.Record`: Elaboration of (possibly nested) record updates
+* `TTImp.Elab.Rewrite`: Elaboration of `rewrite` rules
+* `TTImp.Elab.Term`: Elaboration of terms (of type `TTImp.TTImp.RawImp`). This
+  is mainly a large pattern match that delegates to other modules.
+* `TTImp.Elab.Utils`: Some utilities used during elaboration. I'm going to describe
+  these once I understand stuff better.
+* `TTImp.Elab`: Additional functions for elaborating terms. (TODO)
+* `TTImp.Unelab`: This goes in the opposite direction of elaboration:
+  It allows us to convert TT terms back to terms with implicits (TTImp).
+  It seems to be used all over the place, so I probably should dig a bit
+  deeper (TODO).
 
 ## Processing Top-Level Declarations
 
@@ -124,6 +190,9 @@ Modules:
   verifying that the function name has not already been defined in the
   current namespace, finding inferrable argument types, and checking its type
   and converting it to closed term.
+* `TTImp.WithClause`: Utilities for processing `with` clauses (TODO)
+* `TTImp.PartialEval`: Exports `applylSpecialise`, which implements
+  function specialisation (via `%spec` pragmas) (TODO)
 
 ## Elaborator Reflection
 
