@@ -102,37 +102,3 @@ to include the Prelude before running this.
 * [Code Generation and Backends](docs/Codegen.md)
 * [Dealing with Text: Lexing, Parsing, and Pretty Printing](docs/Text.md)
 * [Utility Modules in `Libraries`](docs/Libraries.md)
-
-## TODO Module List
-
-- [ ] Core.AutoSearch
-- [ ] Core.GetType
-- [ ] Core.LinearCheck
-- [ ] Core.Reflect
-- [ ] Core.Transform
-- [ ] Core.Unify
-- [ ] Core.UnifyState
-- [ ] Core.Value
-- [ ] TTImp.Elab
-- [ ] TTImp.Elab.Ambiguity
-- [ ] TTImp.Elab.App
-- [ ] TTImp.Elab.As
-- [ ] TTImp.Elab.Binders
-- [ ] TTImp.Elab.Case
-- [ ] TTImp.Elab.Delayed
-- [ ] TTImp.Elab.Dot
-- [ ] TTImp.Elab.Hole
-- [ ] TTImp.Elab.ImplicitBind
-- [ ] TTImp.Elab.Lazy
-- [ ] TTImp.Elab.Local
-- [ ] TTImp.Elab.Prim
-- [ ] TTImp.Elab.Quote
-- [ ] TTImp.Elab.Record
-- [ ] TTImp.Elab.Rewrite
-- [ ] TTImp.Elab.RunElab
-- [ ] TTImp.Elab.Term
-- [ ] TTImp.Elab.Utils
-- [ ] TTImp.PartialEval
-- [ ] TTImp.Reflect
-- [ ] TTImp.Unelab
-- [ ] TTImp.WithClause

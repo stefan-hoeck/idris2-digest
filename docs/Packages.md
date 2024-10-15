@@ -10,7 +10,7 @@ licensing. The following modules are relevant:
   This module also defines data types `PkgVersion` and `VersionBounds`
   plus utilities for comparing package version bounds.
   Finally, it contains a pretty printer for `PkgDesc`, which can be
-  used to generate `.ipkg` files from the Idris type.
+  used to generate `.ipkg` files from values of the Idris type.
 * `Idris.Package.Init`: Utilities for (interactively) setting up a new
   Idris project plus corresponding `.ipkg` file.
 * `Idris.Package.ToJson`: Utilities for exporting `.ipkg` files to
@@ -28,9 +28,9 @@ licensing. The following modules are relevant:
 ## Package Processing
 
 All functions described in this section are in module `Idris.Package`
-unless an different namespace is specified explicitly.
+unless a different namespace is specified explicitly.
 
-From point of view of the Idris drive, the main entry point into package
+From point of view of the Idris driver, the main entry point into package
 processing is function `processPackageOpts`, which partitions
 command line options into one or more packaging commands plus their
 settings. The commands found are then passed on to `processPackage`.
@@ -67,7 +67,7 @@ which is described further below.
 ### The `--build` and `--check` Commands
 
 Function `build` verifies Idris compatibility and prepares for compilation.
-It the checks if the `.ipkg` file describes an executable. If yes,
+It then checks if the `.ipkg` file describes an executable. If yes,
 it compiles it using `compileMain`. Either way, the `postbuild` hooks
 are run afterwards.
 
@@ -101,7 +101,7 @@ Function `installSrcFrom`: TODO
 ### The `--repl` Command
 
 Runs `build` and starts a REPL session via `runRepl`, which sets up
-a new unification state and metadata context, loads the main (if any)
+a new unification state and metadata context, loads the main module (if any)
 via `Idris.REPL.loadMainFile`
 before starting a REPL session via `Idris.REPL.repl`
 (see also [The Idris REPL](REPL.idr)).
@@ -119,15 +119,16 @@ and - if successful - changes
 the working directory to the file's root directory and adjusts
 the path of the main source file (if any) accordingly.
 
-In addition, options set in the `.ipkg` file be set via
+In addition, options set in the `.ipkg` file will be set via
 `Idris.SetOptions.preOptions`, and all dependencies of the `.ipkg`
 file are resolved transitively
 (function `addDeps`), and their root directories added to the
 `package_dirs` field in `Directories` (see the section about directories
-in [Core](Core.md])).
+in [Core](Core.md#directories)).
 
 ## Module Trees
 
+Modules:
 * `Idris.ModTree`: This module provides the `ModTree` data type for
   describing modules and their dependencies. Function `mkModTree` is
   used to recursively assemble a `ModTree` from a starting module plus
@@ -157,8 +158,9 @@ Modules:
   for loading imported modules, and processing whole source files.
   When a module is being processed (in `processMod`), the metadata
   of its imports is loaded (`readImportMeta`) and (after checking
-  if the module is up-to-date), imports are processed in full before
-  elaborating all top-level declarations via `TTImp.Elab.Check.processDecl`,
+  if the module is up-to-date), imports are processed in full, top-level
+  declarations are [desugared](Syntax.md#desugaring) and elaborated
+  via `TTImp.Elab.Check.processDecl`,
   which is the entry point into [elaboration](Elab.md).
 
   Note, that `processMod` expects the imported modules to have already
