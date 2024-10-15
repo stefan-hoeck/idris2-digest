@@ -38,7 +38,8 @@ environment. Here's a simplified list of steps taken:
 * Load settings from [environment variables](Core.md#environment)
 * Run `showInfo`, which does exactly nothing and proudly returns `False` at the end
 * Preprocess command-line options and continue if this returns `True`
-* Invoke `processPackageOpts` (such as `--build` or `--install`) and quit if done.
+* Invoke [`processPackageOpts`](Packages.md#package-processing)
+  (such as `--build` or `--install`) and quit if done.
   This is the entry point into loading and building packages. It will be
   discussed in greater detail in [Packages and Modules](Packages.md).
 * If we are still here, start a REPL session or IDE mode:

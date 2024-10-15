@@ -318,4 +318,4 @@ Modules:
 
 ### TTM Files: Metadata
 
-TODO
+Module [metadata](Packages.md#metadata) is stored in binary form in `.ttm` files.
