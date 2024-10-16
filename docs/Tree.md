@@ -67,7 +67,7 @@ I *think* I understood the ones below, but there might be others:
   This will always work but some de Bruijn indices will have to be
   adjusted, so we need to know about the exact scopes at runtime.
   Interface: `Scoped`.
-* *shrinking*: This opposite of *thinning* is *shrinking* and like
+* *shrinking*: The opposite of *thinning* is *shrinking* and like
   *strengthening*, this is an operation that might fail.
   Interface: `Scoped`.
 * *renaming*: The variables in a term can be renamed if two scopes have

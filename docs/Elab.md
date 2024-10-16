@@ -24,6 +24,8 @@ which are described below:
   * `InTrans`: Informs that we are elaborating a `%transform` declaration.
     It is set in `TTImp.ProcessTransform.processTransform` and affects
     unification of holes (see `Core.UnifyState.checkUserHolesAfter`).
+  * `InPartialEval`: Informs that we are elaborating a specialised version
+    of a function (TODO).
 * `NestedNames`: Defined in module `TTImp.TTImp`.
 
 ## Case Trees
@@ -192,7 +194,7 @@ Modules:
   current namespace, finding inferrable argument types, and checking its type
   and converting it to closed term.
 * `TTImp.WithClause`: Utilities for processing `with` clauses (TODO)
-* `TTImp.PartialEval`: Exports `applylSpecialise`, which implements
+* `TTImp.PartialEval`: Exports `applySpecialise`, which implements
   function specialisation (via `%spec` pragmas) (TODO)
 
 ## Elaborator Reflection

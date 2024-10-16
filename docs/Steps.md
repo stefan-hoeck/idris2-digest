@@ -294,8 +294,8 @@ function's type has been properly resolved to `Prelude.Types.Nat`,
 and that this in fact corresponds to a type constructor of
 arity zero.
 
-Let us now look at what happened behind the scenes. I do this in
-by listing different steps taken, glossing over some details.
+Let us now look at what happened behind the scenes. I do this
+by listing the different steps taken, glossing over some details.
 It might be best to follow along with the source code open
 at the same time:
 
@@ -307,4 +307,73 @@ at the same time:
 * This first puts the function's name in the current namespace,
   resolves it, and checks, if a thing with that name is already
   defined.
-*  
+* It then checks the type of the declaration's term itself by
+  introducing a dummy definition at the top-level. We will talk
+  about this in more detail [below](#checking-a-term-in-a-type).
+* The type term is next converted to a `ClosedTerm` by applying
+  the environment. Since the environment is currently empty,
+  nothing has to be done here.
+* The fully applied type is then inspected to determine erased arguments.
+  (TODO)
+* Next, inferrable argument types are determined in a clear context. (TODO)
+* Create a new declaration with all the info assembled and add it to
+  the global context.
+* Flag the declaration to have been linearity checked.
+* Process the declaration's function opts (such as `%inline` or `%foreign`).
+* Set the function's expected totality (either the currently set default one,
+  or the one given explicitly with the function).
+* Make the type available for interactive editing. (TODO)
+* Add the declaration's name and type to the global context.
+* Process the type's metadata. (TODO)
+* Add the name's and type's hashes if the function is not private.
+  This determines, if a module's visible API has changed and
+  whether downstream modules should be rechecked.
+* Warn if names are shadowing other names. (TODO)
+
+### Checking a Term in a Type
+
+We glossed over the details of checking the type's term in the discussion
+above. Let's have a closer look at how this goes now. The entry point for this
+is `TTImp.Elab.checkTerm` and it takes several additional arguments.
+Here's the meaning and value of each explicit argument in our current
+function call:
+
+* `defining`: Index of definition declaration. In our case, this is the
+  index of `My.Module.test` that has already been resolved.
+* `mode`    : Mode of elaboration. Currently, this is set to `InType`
+* `opts`    : Elaboration options. Currently, this is `[HolesOkay]`.
+* `nest`    : Nested names (TODO). This is currently empty.
+* `env`     : Defined variables in scope. This is currently empty.
+* `tm`      : The term we are about to check. This is currently
+  `IBindHere _ (PI erased) (IVar _ (UN (Basic "Nat")))`. (I omitted
+  the file contexts because we are currently not interested in those.)
+* `ty`      : The type this should elaborate to. Now, this calls for
+  some explanation. This is of type `Glued vars`, which pairs a term
+  with its [normal form](Elab.md#normalization).
+  For reasons of efficiency, glued normal forms
+  are lazily evaluated and cached in the current context. In our case,
+  this is the result of invoking `Core.Normalise.Eval.gType`, which
+  corresponds to `TType` as the term and `NType` as its normal form.
+
+Function `checkTerm` immediately invokes `checkTermSub`, which
+takes an additional inner environment with a proof that it is a
+[thinning](Tree.md#operations-on-scoped-terms) of the outer
+environment. Here's the steps it goes through:
+
+* First, since we are in a type (`mode` is `InType`), we branch off
+  the current context (this will later be committed back once we
+  were successful) because we might need to backtrack.
+* We then store the current state of other mutable variables in
+  case we need to retry with implicits.
+* Next, `elabTermSub` is invoked and we inspect the error we get
+  (if any). In case this is a `TryWithImplicits`, mutable variables
+  are restored, implicits are bound to the current term and
+  elaboration is retried.
+
+Now, the big one: `elabTermSub`.
+
+* We first determine from the list of elab options, if we are in
+  a case block, a partial evaluation, or a transform rule.
+* We then save some state (`saveHoles` and `delayedElab`).
+
+To be continued...
