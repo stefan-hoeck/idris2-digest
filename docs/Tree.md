@@ -12,7 +12,10 @@ but also machine generated names used during compilation, for instance,
 when case trees or `where` blocks are moved to the top level.
 
 * `Core.Name.Namespace`: Data types and utilities for working
-  with namespaces and module identifiers
+  with namespaces and module identifiers. These are represented in
+  reverse order to facilitate resolving partial namespaces. A `SnocList`
+  would probably have made more sense here, but I think that was not
+  yet a thing when Idris2 started.
 * `Core.Name`: Data type `UserName` defines user-defined names:
   regular identifiers, record field projections, and placeholders
   (underscores: '_'). Data type `Name` adds support for names in a
@@ -166,7 +169,7 @@ signatures.
 ### Quantities
 
 In Idris, every bound variable is annotated with a quantity (data type
-`RigCount`, which is an alias for `Algebra.ZeroOneOmega.ZeroOneOmega`.
+`RigCount`, which is an alias for `Algebra.ZeroOneOmega.ZeroOneOmega`).
 Relevant modules:
 
 * `Algebra`: `RigCount` alias and reexport of submodules
@@ -180,7 +183,7 @@ Relevant modules:
 This describes the *implicitness* of a bound variable: implicit, explicit,
 auto-implicit, or implicit with default. These correspond to the different
 ways variables can be introduced in Idris code. Explicit variables are
-manually (explicitly) passed to function, while implicit variables are usually
+manually (explicitly) passed to functions, while implicit variables are usually
 solved by unification or - in the case of auto-implicit variables - proof search.
 Default implicit variables are assigned the default value unless given
 explicitly.
@@ -206,7 +209,8 @@ in one of these tree types.
 
 This library provides a pretty printer for high-level syntax trees, so
 it is possible to experiment with your own snippets of Idris source
-code and see what they get converted to. See `main` in `Digest.Parse`.
+code and see what they get converted to. See `main` in `Digest.Parse`
+of this project.
 
 ## Type Theory with Implicits: `TTImp`
 
@@ -262,7 +266,7 @@ Below is a list of the remaining submodules of `Core.TT` and their content:
     * `TType`: `Type` with potential support (?) for universe levels. TODO
 * `Core.TT`: More data types and utilities:
   * `KindedName`: Adds additional information to a `Name`.
-  * `CList`: Don's know. Seems to be dead code.
+  * `CList`: Don't know. Seems to be dead code.
   * `Visibility`: Enum type corresponding to `private`, `export`, and `public export`.
   * `Fixity`: Enum type corresponding to different types
      of fixity declarations (`infixl`, `infir`, `infix`, and `prefix`).
@@ -278,9 +282,9 @@ Below is a list of the remaining submodules of `Core.TT` and their content:
   * `PartialReason`: Data type encapsulating the different reasons why Idris
     might consider a function as being non-total.
   * `Terminating`: Data type describing if a function is total (terminating) or not.
-    I assume (haven't checked yet, TODO) that this is the outcome of totality checking.
+    That this is the outcome of totality checking.
   * `Covering`: Data type describing if a function is covering or not.
-    I assume (haven't checked yet, TODO) that this is the outcome of coverage checking.
+    This is the outcome of coverage checking.
   * `Totality`: Record pairing `Terminating` and `Covering`.
   * `Bounds`: TODO
   * `addVars`: TODO

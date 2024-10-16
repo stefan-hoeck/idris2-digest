@@ -13,14 +13,27 @@ test : Nat
 test = 1
 ```
 
+You can start your own experiments by compiling `Digest.Elab` and invoke
+it with your own module and declaration name. Like so:
+
+```sh
+pack -o elab exec src/Digest/Elab.idr
+build/exec/elab path/to/MyModule.idr funName
+```
+
+Likewise, modules `Digest.Parse` and `Digest.Desugar` can be run
+against custom module to check the output of the corresponding
+compilation steps.
+
 ## Parsing into a high-level syntax Tree
 
 First, the module is [parsed](Text.md) into a record type called `Module` from
 [`Idris.Syntax`](Syntax.md#high-level-language). It contains the
 fully qualified module name, a list of module imports, the module
 documentation, plus a list
-of top-level declarations in a tree representation of the high-level
-syntax. Here's how this information looks in pretty printed form:
+of top-level declarations in a [tree representation](Tree.md)
+of the high-level syntax. Here's how this information looks in
+pretty printed form:
 
 ```repl
 MkModule
