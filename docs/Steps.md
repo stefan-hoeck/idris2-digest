@@ -22,7 +22,7 @@ build/exec/elab path/to/MyModule.idr funName
 ```
 
 Likewise, modules `Digest.Parse` and `Digest.Desugar` can be run
-against custom module to check the output of the corresponding
+against custom modules to check the output of the corresponding
 compilation steps.
 
 ## Parsing into a high-level syntax Tree
@@ -128,7 +128,7 @@ We start the elaboration machinery by passing our desugared declarations
 to `TTImp.Elab.Check.processDecls`, which will not return a result but
 update the global context instead. The freshly generated declarations
 can be retrieved with `Core.Context.lookupCtxtName`. The beginning of what
-we get looks as follows:
+we get when looking for "test" after processing it looks as follows:
 
 ```repl
 [ ( NS (MkNamespace [Main]) (UN (Basic "test"))
@@ -142,25 +142,28 @@ we get looks as follows:
 ```
 
 We are going to take it slowly here. We first note that the `Namespace`
-is not correct, because I did not bother to adjust it before
-invoking `processDecl`.
+is not correct, because I did not bother to adjust it in the global
+context before invoking `processDecl`. (This has been fixed in the code
+but I leave the output as it is to demonstrate the effect of `setNS`,
+which is used for setting the namespace.)
 
 Next, we see that we got some ominous number: `2648`. In fact, we see several
 additional numbers, typically wrapped in a `Resolved` constructor. These are
-resolved names of global definitions, which are stored in a mutable array
-to get very fast lookup times. Resolved names contain the indices with which
-to look up definitions in this array.
+resolved names of the global definitions, which are stored in a mutable array
+to get fast lookup times. Resolved names contain the indices pointing to
+the corresponding array entries.
 
 That's all well and good, but how are we supposed to make sense of things
 if all the names are encoded as meaningless integers? Fortunately, there
 is interface `Core.Context.HasNames`, that allows us to convert values
-from and to resolved names. With this, the output above gets more readable.
+with `Name`s from and to the resolved versions. With this, the output
+above gets more readable.
 This time, I print only the global definition, but in its full glory:
 
 ```repl
 MkGlobalDef
   { location = fc
-  , fullname = NS (MkNamespace [Main]) (UN (Basic "test"))
+  , fullname = NS (MkNamespace [Module, My]) (UN (Basic "test"))
   , type =
       Ref
         TyCon {tag = 100, arity = 0}

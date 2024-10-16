@@ -14,7 +14,14 @@ import Core.Env
 export
 elabModule : Refs => Module -> Core ()
 elabModule m = do
+  -- set the current namespace in the global context to the name
+  -- of the module we are processing
+  setNS (miAsNamespace m.moduleNS)
+
+  -- desugar to TTImp
   ds <- desugarModule m
+
+  -- process all module declarations
   traverse_ (Check.processDecl [] (MkNested []) []) ds
 
 prog : Module -> Name -> Core ()
