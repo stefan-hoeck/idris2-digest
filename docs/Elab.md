@@ -24,6 +24,7 @@ which are described below:
   * `InTrans`: Informs that we are elaborating a `%transform` declaration.
     It is set in `TTImp.ProcessTransform.processTransform` and affects
     unification of holes (see `Core.UnifyState.checkUserHolesAfter`).
+* `NestedNames`: Defined in module `TTImp.TTImp`.
 
 ## Case Trees
 

@@ -17,15 +17,21 @@ elabModule m = do
   ds <- desugarModule m
   traverse_ (Check.processDecl [] (MkNested []) []) ds
 
-prog : Module -> Core ()
-prog m = do
+prog : Module -> Name -> Core ()
+prog m n = do
   refs <- initRefs
   elabModule m
-  hs   <- getUserHolesData
-  dump hs
+  defs      <- get Ctxt
+  [(_,_,v)] <- lookupCtxtName n defs.gamma | _ => pure ()
+  vr        <- full defs.gamma v
+  dump vr
+
+declName : List String -> Name
+declName (h::_) = fromString h
+declName _      = "test"
 
 main : IO ()
 main = run $ do
-  mod <- readModule
-  m   <- parseModule mod
-  prog m
+  (mod,ts) <- readModule
+  m        <- parseModule mod
+  prog m (declName ts)

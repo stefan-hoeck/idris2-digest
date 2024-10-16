@@ -32,6 +32,6 @@ prog m = do
 
 main : IO ()
 main = run $ do
-  mod <- readModule
-  m   <- parseModule mod
+  (mod,_) <- readModule
+  m       <- parseModule mod
   prog m

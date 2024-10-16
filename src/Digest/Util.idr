@@ -33,11 +33,11 @@ mod1 : String
 ||| Reads the file given as the sole command-line argument. Otherwise
 ||| returns `mod1`.
 export
-readModule : Core String
+readModule : Core (String, List String)
 readModule = do
   coreLift getArgs >>= \case
-    [_,f] => Util.readFile f
-    _     => pure mod1
+    (_::f::t) => (,t) <$> Util.readFile f
+    _         => pure (mod1, [])
 
 export
 FromString Name where
@@ -50,12 +50,10 @@ mod1 =
   """
   module My.Module
 
-  import Data.DPair
-  import Data.List
+  import Prelude
 
   %default total
 
   export
-  test : Subset (List a) NonEmpty -> String 
-  test (Element x _) = ?fooo
+  test : Nat
   """

@@ -92,6 +92,7 @@ to include the Prelude before running this.
 
 ## Table of Content
 
+* [Compilation Steps: A Walkthrough](docs/Steps.md)
 * [Main: Point of Entry](docs/Main.md)
 * [Core Functionality](docs/Core.md)
 * [Packages and Modules](docs/Packages.md)

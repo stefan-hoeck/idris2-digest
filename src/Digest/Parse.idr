@@ -20,6 +20,6 @@ parseModule s =
 -- parses it into a `Idris.Syntax.Module` record and pretty-prints the result.
 main : IO ()
 main = run $ do
-  mod <- readModule
-  m   <- parseModule mod
+  (mod,_) <- readModule
+  m       <- parseModule mod
   coreLift $ putPretty m
