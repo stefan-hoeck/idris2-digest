@@ -53,6 +53,7 @@ mod1 =
   import Prelude
 
   %default total
+  %logging 100
 
   export
   test : Nat
