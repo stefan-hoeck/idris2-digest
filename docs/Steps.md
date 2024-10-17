@@ -399,4 +399,9 @@ Now, `TTImp.Elab.Check.check` decides based on the expression we
 are trying to elaborate if some implicit coercions should be
 applied and possible ambiguities should be resolved. This is
 the case here, since we are not in a local block, so we
-move on to [ambiguity resolution](Elab.md#ambiguity-resolution).
+move on to [ambiguity resolution](Elab.md#ambiguity-resolution),
+which returns immediately because our term is still wrapped
+in an `IBindHere`. Next, `insertImpLam` is invoked (TODO), which
+also has no effect here, and we move on to `checkImp` which immediately
+invokes `checkTerm`, which then invokes `TTImp.Elab.ImplicitBind.checkBindHere`,
+because our term is still wrapped in an `IBindHere`.

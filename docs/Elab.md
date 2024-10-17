@@ -156,8 +156,10 @@ Modules:
 
 ### Ambiguity Resolution
 
-This is the process of fully qualifying partially qualified names based on
-their expected types. Module `TTImp.Elab.Ambiguity` exports two major functions
+This is the process of resolving potentially ambiguous
+partially qualified names based on
+their expected types. This also includes the expansion of
+macros (`%macro`). Module `TTImp.Elab.Ambiguity` exports two major functions
 that are used externally:
 
 * `expandAmbigName`: This is invoked from `TTImp.Elab.Term.check` to resolve
@@ -165,6 +167,18 @@ that are used externally:
   and on all kinds of function applications. Other terms are ignored.
   `IBindVar`s on the left hand side get special treatment, but I haven't looked
   at the details yet.
+  The main functionality happens when matching on an `IVar` constructor. In this
+  case, the wrapped name is looked up in the current context and - depending on
+  the number of candidates - fails, builds a single new term or
+  returns a list of alternatives wrapped in an `IAlternative` constructor.
+
+  Macro expansion happens by creating all possible splits of function arguments,
+  wrapping each possibility in an `IRunElab` and wrapping everything
+  in an `IAlternative` that should pass on first success.
+
+  Resolving function application is implemented as a recursive call where
+  function arguments are put on a stack and reapplied to potential
+  candidates when building alternatives.
 * `checkAlternative` (TODO)
 
 ## Processing Top-Level Declarations
