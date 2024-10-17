@@ -154,6 +154,19 @@ Modules:
   It seems to be used all over the place, so I probably should dig a bit
   deeper (TODO).
 
+### Ambiguity Resolution
+
+This is the process of fully qualifying partially qualified names based on
+their expected types. Module `TTImp.Elab.Ambiguity` exports two major functions
+that are used externally:
+
+* `expandAmbigName`: This is invoked from `TTImp.Elab.Term.check` to resolve
+  partially qualified names before checking terms. It operates on variables
+  and on all kinds of function applications. Other terms are ignored.
+  `IBindVar`s on the left hand side get special treatment, but I haven't looked
+  at the details yet.
+* `checkAlternative` (TODO)
+
 ## Processing Top-Level Declarations
 
 In these modules, top-level (and, sometimes, nested) declarations are processed

@@ -374,6 +374,29 @@ Now, the big one: `elabTermSub`.
 
 * We first determine from the list of elab options, if we are in
   a case block, a partial evaluation, or a transform rule.
-* We then save some state (`saveHoles` and `delayedElab`).
+* We then save some state (`saveHoles` and `delayedElab`) and
+  before invoking `TTImp.Elab.Check.check`.
 
-To be continued...
+And another big one: `TTImp.Elab.Check.check` (implemented in
+`TTImp.Elab.Term`). Function arguments are almost the same as
+for `TTImp.Elab.checkTerm`, and I'm going to repeat them here
+in order to not confuse things:
+
+* `rigc`    : Expected quantity. In our case, this is 0, since
+  we are in a type (as returned by `TTImp.Elab.getRigNeeded`)
+* `elabinfo`: `ElabInfo` records containing information about what
+  we are currently doing and used in recursive calls. In our case,
+  `mode` was set to `InType`, the rest are default values.
+* `nest`    : Nested names (TODO). This is currently empty.
+* `env`     : Defined variables in scope. This is currently empty.
+* `tm_in`   : The term we are about to check. This is currently
+  `IBindHere _ (PI erased) (IVar _ (UN (Basic "Nat")))`. (I omitted
+  the file contexts because we are currently not interested in those.)
+* `exp`     : The type this should elaborate to. This is still our
+  glued `TType`, this time wrapped in a `Just`.
+
+Now, `TTImp.Elab.Check.check` decides based on the expression we
+are trying to elaborate if some implicit coercions should be
+applied and possible ambiguities should be resolved. This is
+the case here, since we are not in a local block, so we
+move on to [ambiguity resolution](Elab.md#ambiguity-resolution).
